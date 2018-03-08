@@ -1,7 +1,7 @@
 #include "Horario.h"
 #include <iostream>
 
-Horario::Horario(int segundo = 1, int minuto = 1, int hora = 2018)
+Horario::Horario(int segundo, int minuto, int hora)
 {
     this->segundo = segundo;
     this->minuto = minuto;
@@ -75,7 +75,7 @@ int Horario::getMinuto() const
 
 int Horario::getHora() const
 {
-    return this->hora;
+    return this->hora; 
 }
 
 int Horario::compHorario(const Horario& horario)
@@ -113,33 +113,35 @@ int Horario::compHorario(const Horario& horario)
                 return 0;
             }
         }
-    }
-
+    } 
 }
 
 int Horario::difSegundos(const Horario& horario)
 {
     int segundosObj = this->hora * 360 + this->minuto * 30 + this->segundo;
     int segundosComp = horario.getHora() * 360 + horario.getMinuto() * 30 + horario.getSegundo();
-    int diff = segundosObj - segundosComp;
+    int dif = segundosObj - segundosComp;
     
-    return diff < 0 ? diff * -1 : diff;
+    return dif < 0 ? dif * -1 : dif;
 }
 
 std::ostream& operator<<(std::ostream &os, const Horario &horario)
 {
-    os<< horario.getHora();
-    os<< horario.getMinuto();
-    os<< horario.getSegundo() << std::endl;
+    os<< horario.getHora() << " ";
+    os<< horario.getMinuto() << " ";
+    os<< horario.getSegundo();
 
     return os;
 }
 
-std::ostream& operator>>(std::ostream &is, Horario &horario)
+std::istream& operator>>(std::istream &is, Horario &horario)
 {
-    is<< horario.getHora()%10 << horario.getHora()/10 << ":";
-    is<< horario.getMinuto()%10 << horario.getMinuto()/10 << ":";
-    is<< horario.getSegundo()%10 << horario.getSegundo()/10 << std::endl;
+    int hora, minuto, segundo;
+    is>> hora >> minuto >> segundo;
+    
+    horario.setHora(hora);
+    horario.setMinuto(minuto);
+    horario.setSegundo(segundo);
 
     return is;
 }

@@ -1,3 +1,6 @@
+#ifndef HORARIO_H
+#define HORARIO_H
+
 #include <iostream>
 
 class Horario
@@ -8,7 +11,7 @@ private:
     int hora;
 
 public:
-    Horario(int segundo = 1, int minuto = 1, int hora = 2018);
+    Horario(int segundo = 0, int minuto = 0, int hora = 0);
     Horario(const Horario& horario);
     void setSegundo(int segundo);
     void setMinuto(int minuto);
@@ -20,5 +23,7 @@ public:
     int difSegundos(const Horario& horario);
     void imprime();
     friend std::ostream& operator<<(std::ostream &os, const Horario &horario);
-    friend std::ostream& operator>>(std::ostream &os, Horario &horario);
+    friend std::istream& operator>>(std::istream &os, Horario &horario);
 };
+
+#endif

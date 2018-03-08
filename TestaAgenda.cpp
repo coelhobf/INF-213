@@ -13,9 +13,9 @@ D_NC M_NC A_NC H_NC Min_NC S_NC
 <Linha em branco>
 D1 M_1 A_1
 ...
-D_NQ M_NQ A_NQ
+D_NQ M_NQ A_NQexe
 
-Onde NC e' o numero de compromissos a serem incluidos na agenda
+Onde NC e' o numero de compromissos a serem incluidos na aexegenda
 
 A seguir, ha 2*NC linhas representando os compromissos a serem inseridos.
 
@@ -36,7 +36,7 @@ Horario_1 Compr_1
 ....
 Horario_n Compr_n
 
-I.e., deve ser impressa uma linha com a data da consulta e n linhas para cada um dos n compromissos
+I.e., deve ser impressa uma linha com a data da consulta eexe n linhas para cada um dos n compromissos
 encontrados nessa data. Cada compromisso e' representado por um horario (ex: 2:5:57 (2 horas, 5 minutos e 
 57 segundos)) seguido pela string descrevendo o titulo do compromisso.
 */

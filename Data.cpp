@@ -1,11 +1,11 @@
 #include "Data.h"
 #include <iostream>
 
-Data::Data(int dia = 1, int mes = 1, int ano = 2018)
+Data::Data(int dia, int mes, int ano)
 {
-    this->dia = dia;
-    this->mes = mes;
-    this->ano = ano;
+    this->setDia(dia);
+    this->setMes(mes);
+    this->setAno(ano);
 }
 
 Data::Data(const Data& data)
@@ -78,59 +78,50 @@ int Data::getAno() const
     return this->ano;
 }
 
-int Data::compData(const Data& data)
+int Data::compData(const Data& data) const
 {
     if(this->ano < data.getAno())
     {
         return -1;
     }
-    else if(this->ano > data.getAno())
+    if(this->ano > data.getAno())
     {
         return 1;
     }
-    else
+    if(this->mes < data.getMes())
     {
-        if(this->mes < data.getMes())
-        {
-            return -1;
-        }
-        else if(this->mes > data.getMes())
-        {
-            return 1;
-        }
-        else
-        {
-            if(this->dia < data.getDia())
-            {
-                return -1;
-            }
-            else if(this->dia > data.getDia())
-            {
-                return 1;
-            }
-            else
-            {
-                return 0;
-            }
-        }
+        return -1;
     }
-
+    if(this->mes > data.getMes())
+    {
+        return 1;
+    }
+    if(this->dia < data.getDia())
+    {
+        return -1;
+    }
+    if(this->dia > data.getDia())
+    {
+        return 1;
+    }
+    
+    return 0;
 }
 
-int Data::difDias(const Data& data)
+int Data::difDias(const Data& data) const
 {
     int diasObj = this->ano * 360 + this->mes * 30 + this->dia;
     int diasComp = data.getAno() * 360 + data.getMes() * 30 + data.getDia();
-    int diff = diasObj - diasComp;
+    int dif = diasObj - diasComp;
     
-    return diff < 0 ? diff * -1 : diff;
+    return dif < 0 ? dif * -1 : dif;
 }
 
 std::ostream& operator<<(std::ostream &os, const Data &data)
 {
-    os<< data.getDia();
-    os<< data.getMes();
-    os<< data.getAno() << std::endl;
+    os<< data.getDia() << " ";
+    os<< data.getMes() << " ";
+    os<< data.getAno();
 
     return os;
 }

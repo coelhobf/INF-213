@@ -1,3 +1,6 @@
+#ifndef DATA_H
+#define DATA_H
+
 #include <iostream>
 
 class Data
@@ -16,9 +19,11 @@ public:
     int getDia() const;
     int getMes() const;
     int getAno() const;
-    int compData(const Data& data);
-    int difDias(const Data& data);
+    int compData(const Data& data) const;
+    int difDias(const Data& data) const;
     void imprime();
     friend std::ostream& operator<<(std::ostream &os, const Data &data);
-    friend std::ostream& operator>>(std::ostream &os, Data &data);
+    friend std::istream& operator>>(std::istream &is, Data &data);
 };
+
+#endif
