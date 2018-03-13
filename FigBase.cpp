@@ -36,18 +36,7 @@ int FigBase::getEspessura() const
 
 void FigBase::setEspessura(int esp)
 {
-    if(esp < 1)
-    {
-        this->espessura = 1;
-    }
-    else  if(esp > 5)
-    {
-        this->espessura = 5;
-    }
-    else
-    {
-        this->espessura = esp;
-    }
+    this->espessura = (esp < 1 || esp > 5) ? 1 : esp;
 }
 
 int FigBase::getCor() const
@@ -57,18 +46,7 @@ int FigBase::getCor() const
 
 void FigBase::setCor(int cor)
 {
-    if(cor < 1)
-    {
-        this->cor = 1;
-    }
-    else  if(cor > 5)
-    {
-        this->cor = 5;
-    }
-    else
-    {
-        this->cor = cor;
-    }
+    this->cor = (cor < 1 || cor > 5) ? 1 : cor;
 }
 
 int FigBase::getTipo() const
@@ -78,18 +56,7 @@ int FigBase::getTipo() const
 
 void FigBase::setTipo(int tipo)
 {
-    if(tipo < 1)
-    {
-        this->tipo = 1;
-    }
-    else  if(tipo > 3)
-    {
-        this->tipo = 3;
-    }
-    else
-    {
-        this->tipo = tipo;
-    }
+    this->tipo = (tipo < 1 || tipo > 3) ? 1 : tipo;
 }
 
 void FigBase::imprime() const { }
