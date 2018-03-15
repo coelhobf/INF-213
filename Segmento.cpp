@@ -2,8 +2,11 @@
 #include "Segmento.h"
 #include <iostream>
 #include <cmath>
+using std::cin;
 using std::cout;
 using std::endl;
+using std::istream;
+using std::ostream;
 
 Segmento::Segmento(double x, double y, double x2, double y2, int esp, int c, int t) :
     FigBase(x, y, esp, c, t)
@@ -11,6 +14,8 @@ Segmento::Segmento(double x, double y, double x2, double y2, int esp, int c, int
     setX2(x2);
     setY2(y2);
 }
+
+Segmento::Segmento() { }
 
 double Segmento::getX2() const
 {
@@ -48,14 +53,31 @@ float Segmento::perimetro() const
     return sqrt(pow(dx, 2) + pow(dy, 2));
 }
 
+void Segmento::le()
+{
+    FigBase::le();
+    double x2, y2;
+    cin>> x2 >> y2;
+    this->setX2(x2);
+    this->setY2(y2);
+}
+
 void Segmento::imprime() const
 {
     cout << "--- [Segmento] ---" << endl;
-    cout << " Atributos da linha: " << endl;
-    cout << "     Espessura = " << getEspessura() << endl;
-    cout << "     Cor       = " << getCor() << endl;
-    cout << "     Tipo      = " << getTipo() << endl;          
-    cout << " x = " << getX() << " y = " << getY() << endl;
+    FigBase::imprime();
     cout << " x2 = " << getX2() << " y2 = " << getY2() << endl;
     cout << " area = " << area() << " perimetro = " << perimetro() << endl; 
+}
+
+istream& operator>>(istream& is, Segmento& fig)
+{
+    fig.le();
+    return is;
+}
+
+ostream& operator<<(ostream& os, const Segmento& fig)
+{
+    fig.imprime();
+    return os;
 }

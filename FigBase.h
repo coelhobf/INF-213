@@ -12,6 +12,7 @@ private:
 
 public:
     FigBase(double, double, int, int, int);
+    FigBase();
     
     double getX() const;
     void setX(double);
@@ -28,6 +29,7 @@ public:
     int getTipo() const;
     void setTipo(int);
 
+    void le();
     void imprime() const;
 };
 

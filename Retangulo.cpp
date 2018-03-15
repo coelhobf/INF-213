@@ -1,8 +1,11 @@
 #include "FigBase.h" 
 #include "Retangulo.h"
 #include <iostream>
+using std::cin;
 using std::cout;
 using std::endl;
+using std::istream;
+using std::ostream;
 
 Retangulo::Retangulo(double x, double y, double larg, double alt, int esp, int c, int t) :
     FigBase(x, y, esp, c, t)
@@ -10,6 +13,8 @@ Retangulo::Retangulo(double x, double y, double larg, double alt, int esp, int c
     setLargura(larg);
     setAltura(alt);
 }
+
+Retangulo::Retangulo() { }
 
 double Retangulo::getLargura() const
 {
@@ -41,14 +46,31 @@ float Retangulo::perimetro() const
     return 2*(largura + altura);      
 }
 
+void Retangulo::le()
+{
+    FigBase::le();
+    int largura, altura;
+    cin>> largura >> altura;
+    this->setLargura(largura);
+    this->setAltura(altura);
+}
+
 void Retangulo::imprime() const
 {
     cout << "--- [Retangulo] ---" << endl;
-    cout << " Atributos da linha: " << endl;
-    cout << "     Espessura = " << getEspessura() << endl;
-    cout << "     Cor       = " << getCor() << endl;
-    cout << "     Tipo      = " << getTipo() << endl;      
-    cout << " x = " << getX() << " y = " << getY() << endl;
+    FigBase::imprime();
     cout << " largura = " << getLargura() << " altura = " << getAltura() << endl;  
     cout << " area = " << area() << " perimetro = " << perimetro() << endl; 
+}
+
+istream& operator>>(istream& is, Retangulo& fig)
+{
+    fig.le();
+    return is;
+}
+
+ostream& operator<<(ostream& os, const Retangulo& fig)
+{
+    fig.imprime();
+    return os;
 }

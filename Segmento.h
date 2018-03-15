@@ -1,4 +1,7 @@
 #include "FigBase.h"
+#include <iostream>
+using std::istream;
+using std::ostream;
 
 #ifndef SEGMENTO_H
 #define SEGMENTO_H
@@ -11,6 +14,7 @@ private:
 
 public:
     Segmento(double, double, double, double, int, int, int);
+    Segmento();
 
     double getX2() const;
     void setX2(double);
@@ -21,7 +25,11 @@ public:
     float area() const;
     float perimetro() const;
 
+    void le();
     void imprime() const;
+
+    friend istream& operator>>(istream& is, Segmento& fig);
+    friend ostream& operator<<(ostream& os, const Segmento& fig);
 };
 
 #endif
