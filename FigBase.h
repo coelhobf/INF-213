@@ -1,6 +1,9 @@
 #ifndef FIGBASE_H
 #define FIGBASE_H
 
+#include <iostream>
+using namespace std;
+
 class FigBase
 {
 private:
@@ -12,7 +15,7 @@ private:
 
 public:
     FigBase(double, double, int, int, int);
-    FigBase();
+    FigBase() { }
     
     double getX() const;
     void setX(double);
@@ -29,8 +32,11 @@ public:
     int getTipo() const;
     void setTipo(int);
 
-    void le();
-    void imprime() const;
+    virtual void le();
+    virtual void imprime() const;
+
+    friend istream& operator>> (istream &is, FigBase &obj);
+    friend ostream& operator<< (ostream &os, FigBase &obj);
 };
 
 #endif

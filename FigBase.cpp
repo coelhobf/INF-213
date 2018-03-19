@@ -1,8 +1,6 @@
 #include "FigBase.h"
 #include <iostream>
-using std::cin;
-using std::cout;
-using std::endl;
+using namespace std;
 
 FigBase::FigBase(double x, double y, int esp, int cor, int tipo)
 {
@@ -67,14 +65,16 @@ void FigBase::setTipo(int tipo)
 
 void FigBase::le()
 {
-    int esp, cor, tipo;
     double x, y;
-    cin>> esp >> cor >> tipo >> x >> y;
-    this->setEspessura(esp);
-    this->setCor(cor);
-    this->setTipo(tipo);
-    this->setX(x);
-    this->setY(y);
+    int esp, cor, tipo;
+
+    cin>> x >> y >> esp >> cor >> tipo;
+
+    setX(x);
+    setY(y);
+    setEspessura(esp);
+    setCor(cor);
+    setTipo(tipo);
 }
 
 void FigBase::imprime() const
@@ -82,6 +82,18 @@ void FigBase::imprime() const
     cout << " Atributos da linha: " << endl;
     cout << "     Espessura = " << getEspessura() << endl;
     cout << "     Cor       = " << getCor() << endl;
-    cout << "     Tipo      = " << getTipo() << endl;          
+    cout << "     Tipo      = " << getTipo() << endl;      
     cout << " x = " << getX() << " y = " << getY() << endl;
+}
+
+istream& operator>> (istream &is, FigBase &obj)
+{
+    obj.le();
+    return is;
+}
+
+ostream& operator<< (ostream &os, FigBase &obj)
+{
+    obj.imprime();
+    return os;
 }

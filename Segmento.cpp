@@ -58,8 +58,8 @@ void Segmento::le()
     FigBase::le();
     double x2, y2;
     cin>> x2 >> y2;
-    this->setX2(x2);
-    this->setY2(y2);
+    setX2(x2);
+    setY2(y2);
 }
 
 void Segmento::imprime() const

@@ -13,7 +13,7 @@ private:
 
 public:
     Circulo(double, double, double, int, int, int);
-    Circulo();
+    Circulo() { }
 
     double getRaio() const;
     void setRaio(double);

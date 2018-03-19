@@ -13,7 +13,7 @@ private:
 
 public:
     Retangulo(double, double, double, double, int, int, int);
-    Retangulo();
+    Retangulo() { }
 
     double getLargura() const;
     void setLargura(double);

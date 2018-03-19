@@ -55,6 +55,15 @@ void Retangulo::le()
     this->setAltura(altura);
 }
 
+void Retangulo::le()
+{
+    FigBase::le();
+    double larg, alt;;
+    cin>> larg >> alt;
+    setLargura(larg);
+    setAltura(alt);
+}
+
 void Retangulo::imprime() const
 {
     cout << "--- [Retangulo] ---" << endl;

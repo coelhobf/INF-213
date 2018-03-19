@@ -42,7 +42,7 @@ void Circulo::le()
     FigBase::le();
     double raio;
     cin>> raio;
-    this->setRaio(raio);
+    setRaio(raio);
 }
 
 void Circulo::imprime() const
