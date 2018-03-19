@@ -32,14 +32,18 @@ float Circulo::perimetro() const
     return 2 * PI * raio;      
 }
 
+void Circulo::le()
+{
+    FigBase::le();
+    double raio;
+    cin>> raio;
+    setRaio(raio);
+}
+
 void Circulo::imprime() const
 {
     cout << "--- [Circulo] ---" << endl;
-    cout << " Atributos da linha: " << endl;
-    cout << "     Espessura = " << getEspessura() << endl;
-    cout << "     Cor       = " << getCor() << endl;
-    cout << "     Tipo      = " << getTipo() << endl;          
-    cout << " x = " << getX() << " y = " << getY() << endl;
+    FigBase::imprime();
     cout << " raio = " << getRaio() << endl; 
     cout << " area = " << area() << " perimetro = " << perimetro() << endl; 
 }

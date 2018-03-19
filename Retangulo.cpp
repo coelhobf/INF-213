@@ -41,14 +41,19 @@ float Retangulo::perimetro() const
     return 2*(largura + altura);      
 }
 
+void Retangulo::le()
+{
+    FigBase::le();
+    double larg, alt;;
+    cin>> larg >> alt;
+    setLargura(larg);
+    setAltura(alt);
+}
+
 void Retangulo::imprime() const
 {
     cout << "--- [Retangulo] ---" << endl;
-    cout << " Atributos da linha: " << endl;
-    cout << "     Espessura = " << getEspessura() << endl;
-    cout << "     Cor       = " << getCor() << endl;
-    cout << "     Tipo      = " << getTipo() << endl;      
-    cout << " x = " << getX() << " y = " << getY() << endl;
+    FigBase::imprime();
     cout << " largura = " << getLargura() << " altura = " << getAltura() << endl;  
     cout << " area = " << area() << " perimetro = " << perimetro() << endl; 
 }

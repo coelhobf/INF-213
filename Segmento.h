@@ -11,6 +11,7 @@ private:
 
 public:
     Segmento(double, double, double, double, int, int, int);
+    Segmento() { }
 
     double getX2() const;
     void setX2(double);
@@ -21,6 +22,7 @@ public:
     float area() const;
     float perimetro() const;
 
+    void le();
     void imprime() const;
 };
 

@@ -10,6 +10,7 @@ private:
 
 public:
     Circulo(double, double, double, int, int, int);
+    Circulo() { }
 
     double getRaio() const;
     void setRaio(double);
@@ -17,6 +18,7 @@ public:
     float area() const;
     float perimetro() const;
 
+    void le();
     void imprime() const;
 };
 

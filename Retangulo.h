@@ -10,6 +10,7 @@ private:
 
 public:
     Retangulo(double, double, double, double, int, int, int);
+    Retangulo() { }
 
     double getLargura() const;
     void setLargura(double);
@@ -20,6 +21,7 @@ public:
     float area() const;
     float perimetro() const;
 
+    void le();
     void imprime() const;
 };
 

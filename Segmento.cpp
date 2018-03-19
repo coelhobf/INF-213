@@ -48,14 +48,19 @@ float Segmento::perimetro() const
     return sqrt(pow(dx, 2) + pow(dy, 2));
 }
 
+void Segmento::le()
+{
+    FigBase::le();
+    double x2, y2;
+    cin>> x2 >> y2;
+    setX2(x2);
+    setY2(y2);
+}
+
 void Segmento::imprime() const
 {
     cout << "--- [Segmento] ---" << endl;
-    cout << " Atributos da linha: " << endl;
-    cout << "     Espessura = " << getEspessura() << endl;
-    cout << "     Cor       = " << getCor() << endl;
-    cout << "     Tipo      = " << getTipo() << endl;          
-    cout << " x = " << getX() << " y = " << getY() << endl;
+    FigBase::imprime();
     cout << " x2 = " << getX2() << " y2 = " << getY2() << endl;
     cout << " area = " << area() << " perimetro = " << perimetro() << endl; 
 }
