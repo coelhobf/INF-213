@@ -53,12 +53,17 @@ void FigBase::setTipo(int t) {
     tipo = (t < 1 || t > 3) ? 1 : t;;
 }
 
-void FigBase::imprime() const {
-
-    cout << *this << endl;
+void FigBase::imprime() const
+{
+    cout << " Atributos da linha: " << endl;
+    cout << "     Espessura = " << this->getEspessura() << endl;
+    cout << "     Cor       = " << this->getCor() << endl;
+    cout << "     Tipo      = " << this->getTipo() << endl;
+    cout << " x = " << this->getX() << " y = " << this->getY() << endl;
 }
 
-void FigBase::ler() {
+void FigBase::ler()
+{
     double x,y;
     int e,c,t;
 
@@ -75,19 +80,15 @@ void FigBase::ler() {
     cin >> c; setCor(c);
 }
 
-ostream& operator<< (ostream &out, const FigBase &f) {
-   out << " Atributos da linha: " << endl;
-   out << "     Espessura = " << f.getEspessura() << endl;
-   out << "     Cor       = " << f.getCor() << endl;
-   out << "     Tipo      = " << f.getTipo() << endl;
-   out << " x = " << f.getX() << " y = " << f.getY() << endl;
-
-   return out;
+ostream& operator<< (ostream &out, const FigBase &f)
+{
+    f.imprime();
+    return out;
 }
 
-istream& operator>> (istream &cin, FigBase &f) {
-   f.ler();
-
-   return cin;
+istream& operator>> (istream &cin, FigBase &f)
+{
+    f.ler();
+    return cin;
 }
 

@@ -41,7 +41,7 @@ public:
     virtual float perimetro() const { return 0; }
 
     virtual void imprime() const;
-    void ler();   // funcao adicional (nao especificada no UML)
+    virtual void ler();   // funcao adicional (nao especificada no UML)
 
 };
 
