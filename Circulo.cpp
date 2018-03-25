@@ -27,28 +27,21 @@ float Circulo::perimetro() const {
     return 2 * PI * raio;
 }
 
-void Circulo::imprime() const {
-
-     cout << *this << endl;
-}
-
-
-ostream& operator<< (ostream &out, const   Circulo &c) {
-    out << "--- [Circulo] ---" << endl;
-    c.FigBase::imprime();
-    out << " raio=" << c.getRaio() << endl;
-    out << " area = " << c.area() << " perimetro = " << c.perimetro() << endl;
-
-   return out;
-}
-
-istream& operator>> (istream &cin, Circulo &c) {
+void Circulo::ler()
+{
     double r;
 
     cout << "Forneca os dados do Circulo \n";
-    c.FigBase::ler();
+    this->FigBase::ler();
     cout << "Raio = ";
-    cin >> r; c.setRaio(r);
+    cin >> r;
+    this->setRaio(r);
+}
 
-    return cin;
+void Circulo::imprime() const
+{
+    cout << "--- [Circulo] ---" << endl;
+    this->FigBase::imprime();
+    cout << " raio=" << this->getRaio() << endl;
+    cout << " area = " << this->area() << " perimetro = " << this->perimetro() << endl;
 }

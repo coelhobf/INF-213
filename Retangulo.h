@@ -9,9 +9,6 @@ using std::ostream;
 
 class Retangulo : public FigBase {
 
-friend ostream& operator<< (ostream &, const Retangulo &);
-friend istream& operator>> (istream &, Retangulo &);
-
 private:
     double largura, altura;
 
@@ -23,6 +20,8 @@ public:
     void setAltura(double);
     float area() const;
     float perimetro() const;
+
+    void ler();
     void imprime() const;
 };
 

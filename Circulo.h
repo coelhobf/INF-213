@@ -9,9 +9,6 @@ using std::ostream;
 
 class Circulo : public FigBase {
 
-friend ostream& operator<< (ostream &, const Circulo &);
-friend istream& operator>> (istream &, Circulo &);
-
 private:
     double raio;
 
@@ -21,6 +18,8 @@ public:
     void setRaio(double);
     float area() const;
     float perimetro() const;
+
+    void ler();
     void imprime() const;
 };
 

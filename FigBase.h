@@ -6,11 +6,8 @@
 using std::istream;
 using std::ostream;
 
-class FigBase {
-
-friend ostream& operator<< (ostream &, const FigBase &);
-friend istream& operator>> (istream &, FigBase &);
-
+class FigBase 
+{
 private:
     double x, y;
 
@@ -43,6 +40,8 @@ public:
     virtual void imprime() const;
     virtual void ler();   // funcao adicional (nao especificada no UML)
 
+    friend ostream& operator<< (ostream &, const FigBase &);
+    friend istream& operator>> (istream &, FigBase &);
 };
 
 #endif

@@ -1,4 +1,3 @@
-
 #include "Retangulo.h"
 #include <iostream>
 using std::cout;
@@ -35,30 +34,24 @@ float Retangulo::perimetro() const {
     return 2*(largura + altura);
 }
 
-void Retangulo::imprime() const {
-
-    cout << *this << endl;
-
-}
-
-ostream& operator<< (ostream &out, const Retangulo &r) {
-    out << "--- [Retangulo] ---" << endl;
-    r.FigBase::imprime();
-    out << " largura=" << r.getLargura() << " altura=" << r.getAltura() << endl;
-    out << " area = " << r.area() << " perimetro = " << r.perimetro() << endl;
-
-   return cout;
-}
-
-istream& operator>> (istream &cin, Retangulo &r) {
+void Retangulo::ler()
+{
     double larg,alt;
 
     cout << "Forneca os dados do retangulo \n";
-    r.FigBase::ler();
+    this->FigBase::ler();
     cout << "Largura = ";
-    cin >> larg; r.setLargura(larg);
+    cin >> larg;
+    this->setLargura(larg);
     cout << "Altura = ";
-    cin >> alt; r.setAltura(alt);
+    cin >> alt;
+    this->setAltura(alt);
+}
 
-    return cin;
+void Retangulo::imprime() const {
+
+    cout << "--- [Retangulo] ---" << endl;
+    this->FigBase::imprime();
+    cout << " largura=" << this->getLargura() << " altura=" << this->getAltura() << endl;
+    cout << " area = " << this->area() << " perimetro = " << this->perimetro() << endl;
 }

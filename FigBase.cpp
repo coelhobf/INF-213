@@ -1,4 +1,3 @@
-
 #include "FigBase.h"
 #include <iostream>
 using std::cout;

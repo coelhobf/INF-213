@@ -8,9 +8,6 @@ using std::ostream;
 
 class Segmento : public FigBase {
 
-friend ostream& operator<< (ostream &, const Segmento &);
-friend istream& operator>> (istream &, Segmento &);
-
 private:
     double x2, y2;
 
@@ -22,6 +19,8 @@ public:
     void setY2(double);
     float area() const;
     float perimetro() const;
+
+    void ler();
     void imprime() const;
 };
 
