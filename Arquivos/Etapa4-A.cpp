@@ -6,8 +6,8 @@ using namespace std;
 #include "Circulo.h"
 #include "Segmento.h"
       
-int main() {
-   
+int main()
+{   
     Retangulo r(13, 7, 2, 4, 1, 1, 1);
     Circulo c(5, 2, 4, 2, 2, 2);
     Segmento s(3, 7, 8, 5, 3, 3, 3);
@@ -19,14 +19,13 @@ int main() {
     p[2] = &s;
 
     int i;
-    for (i=0; i < 3; i++) {
+    for (i=0; i < 3; i++)
+    {
         cout << "Objeto " << i+1 << " eh do tipo " << typeid(p[i]).name() << endl;
         cout << "Perimetro = " << p[i]->perimetro() << endl;
         cout << "Area = " << p[i]->area() << endl;
         cout << endl;
-     }
+    }
        
-    
     return 0;
-    
 }

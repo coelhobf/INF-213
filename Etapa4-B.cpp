@@ -23,9 +23,15 @@ int main()
     for(int i = 0; i < 5; i++)
     {
         cin>> *(obj[i]);
-        if (typeid(*(obj[i])) != typeid(Circulo))
+    }
+
+    for(int i = 0; i < 5; i++)
+    {
+        cout<< *(obj[i]);
+        if (typeid(*(obj[i])) == typeid(Circulo))
         {
-            dynamic_cast<Circulo>()
+            Circulo *temp = dynamic_cast<Circulo*>(obj[i]);
+            temp->setRaio(temp->getRaio() * 2);
         }
     }
 

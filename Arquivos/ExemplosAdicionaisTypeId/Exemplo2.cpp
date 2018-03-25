@@ -15,7 +15,7 @@ int main () {
   CDummy* a;
   CDummy b;
 
-  if (typeid(a) != typeid(b))
+  if (typeid(*a) != typeid(b))
 
   {
 
@@ -23,6 +23,10 @@ int main () {
     cout << "a e: " << typeid(a).name() << '\n';
     cout << "b e: " << typeid(b).name() << '\n';
 
+  }
+  else
+  {
+    cout<< "São iguais\n";
   }
 
   return 0;
