@@ -30,7 +30,7 @@ public:
 
     Type operator[](int i) const;
     bool operator==(Conjunto&);
-    Conjunto& operator=(Conjunto&);
+    Conjunto<Type>& operator=(const Conjunto&);
 
     friend ostream &operator<< <Type>(ostream &,const Conjunto<Type> &conj);
     friend istream &operator>> <Type>(istream &,const Conjunto<Type> &conj);
@@ -50,7 +50,7 @@ Conjunto<Type>::Conjunto(int tam)
 template <class Type>
 Conjunto<Type>::Conjunto(const Conjunto &other)
 {  
-    int tamanho = other.tam_array();
+    int tamanho = other.tamanhoarray();
 
     delete [] this->elementos;
     this->elementos = new Type[tamanho];
@@ -113,7 +113,7 @@ int Conjunto<Type>::tamanhoarray() const
 }
 
 template <class Type>
-Type operator[](int i) const
+Type Conjunto<Type>::operator[](int i) const
 {
     return this->elementos[i];
 }
@@ -141,7 +141,7 @@ bool Conjunto<Type>::operator==(Conjunto &other)
 }
 
 template <class Type>
-Conjunto& Conjunto<Type>::operator=(const Conjunto &other)
+Conjunto<Type>& Conjunto<Type>::operator=(const Conjunto &other)
 {
     this->tam_array = other.tamanhoarray();
     this->num_elementos = other.numelementos();
@@ -149,17 +149,19 @@ Conjunto& Conjunto<Type>::operator=(const Conjunto &other)
     {
         this->elementos[i] = other[i];
     }
+
+    return *this;
 }
 
 template <class Type>
 ostream &operator<<(ostream &out,const Conjunto<Type> &conj)
 {
-    std::out<< "{";
-    for(int i = 0; i < this->num_elementos - 1; i++)
+    out<< "{";
+    for(int i = 0; i < conj.numelementos() - 1; i++)
     {
-        std::out<< this->elementos[i] << ",";
+        out<< conj[i] << ",";
     }
-    std::out<< this->elementos[this->num_elementos - 1] << "}";
+    out<< conj[conj.numelementos() - 1] << "}";
 
     return out;
 }
