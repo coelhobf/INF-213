@@ -8,7 +8,7 @@ using namespace std;
 template <class Type> class Conjunto;
 
 template <class Type> ostream &operator<<(ostream &,const Conjunto<Type> &conj);
-template <class Type> istream &operator>>(istream &,const Conjunto<Type> &conj);
+template <class Type> istream &operator>>(istream &, Conjunto<Type> &conj);
 
 template <class Type> class Conjunto
 {
@@ -33,7 +33,7 @@ public:
     Conjunto<Type>& operator=(const Conjunto&);
 
     friend ostream &operator<< <Type>(ostream &,const Conjunto<Type> &conj);
-    friend istream &operator>> <Type>(istream &,const Conjunto<Type> &conj);
+    friend istream &operator>> <Type>(istream &, Conjunto<Type> &conj);
 };
 
 #pragma endregion
@@ -45,11 +45,13 @@ Conjunto<Type>::Conjunto(int tam)
 {
     this->elementos = new Type[tam];
     this->tam_array = tam;
+    this->num_elementos = 0;
 }
 
 template <class Type>
 Conjunto<Type>::Conjunto(const Conjunto &other)
 {  
+    this->num_elementos = other.numelementos();
     int tamanho = other.tamanhoarray();
 
     delete [] this->elementos;
@@ -73,12 +75,11 @@ bool Conjunto<Type>::pertence(const Type &element) const
 {
     for(int i = 0; i < this->num_elementos; i++)
     {
-        if(elementos[i] == element)
+        if(this->elementos[i] == element)
         {
             return true;
         }
     }
-
     return false;
 }
 
@@ -89,9 +90,10 @@ bool Conjunto<Type>::insere(const Type &element)
     {
         return false;
     }
-    else if(this->num_elementos < this->tam_array -1)
+    else if(this->num_elementos < this->tam_array)
     {
         this->elementos[this->num_elementos] = element;
+        this->num_elementos++;
         return true;
     }
     else
@@ -167,7 +169,7 @@ ostream &operator<<(ostream &out,const Conjunto<Type> &conj)
 }
 
 template <class Type>
-istream &operator>>(istream &in,const Conjunto<Type> &conj)
+istream &operator>>(istream &in, Conjunto<Type> &conj)
 {
     Type item;
     while(in.get(item))
