@@ -34,6 +34,10 @@ public:
 
     friend ostream &operator<< <Type>(ostream &,const Conjunto<Type> &conj);
     friend istream &operator>> <Type>(istream &, Conjunto<Type> &conj);
+
+    Conjunto<Type> operator+(const Conjunto<Type> &b) const;
+    Conjunto<Type> operator*(const Conjunto<Type> &b) const;
+    Conjunto<Type> operator-(const Conjunto<Type> &b) const;
 };
 
 #pragma endregion
@@ -170,10 +174,10 @@ template <class Type>
 istream &operator>>(istream &in, Conjunto<Type> &conj)
 {
     Type item;
-    cin.ignore();
-
+    in.ignore();
+    
     do {
-        cin.get(item);
+        in.get(item);
         if(item != '\n' && item != ' ')
         {
             conj.insere(item);
@@ -181,6 +185,62 @@ istream &operator>>(istream &in, Conjunto<Type> &conj)
     } while(item != '\n');
 
     return in;
+}
+
+template <class Type>
+Conjunto<Type> Conjunto<Type>::operator+(const Conjunto<Type> &b) const
+{
+    Conjunto<Type> conj(this->tamanhoarray() + b.tamanhoarray());
+    int tam = this->numelementos();
+    for(int i = 0; i < tam; i++)
+    {
+        conj.insere((*this)[i]);
+    }
+
+    tam = b.numelementos();
+    for(int i = 0; i < tam; i++)
+    {
+        conj.insere(b[i]);
+    }
+
+    return conj;
+}
+
+template <class Type>
+Conjunto<Type> Conjunto<Type>::operator*(const Conjunto<Type> &b) const
+{
+    int tam;
+    if(this->tamanhoarray() < b.tamanhoarray())
+        { tam = this->tamanhoarray(); } else
+        { tam = b.tamanhoarray(); }
+
+    Conjunto<Type> conj(tam);
+    int num = this->numelementos();
+    for(int i = 0; i < num; i++)
+    {
+        if(b.pertence((*this)[i]))
+        {
+            conj.insere((*this)[i]);
+        }
+    }
+
+    return conj;
+}
+
+template <class Type>
+Conjunto<Type> Conjunto<Type>::operator-(const Conjunto<Type> &b) const
+{
+    Conjunto<Type> conj(this->tamanhoarray());
+    int tam = this->numelementos();
+    for(int i = 0; i < tam; i++)
+    {
+        if(!b.pertence((*this)[i]))
+        {
+            conj.insere((*this)[i]);
+        }
+    }
+
+    return conj;
 }
 
 #pragma endregion
