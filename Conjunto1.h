@@ -50,17 +50,13 @@ Conjunto<Type>::Conjunto(int tam)
 
 template <class Type>
 Conjunto<Type>::Conjunto(const Conjunto &other)
-{  
+{
+    this->tam_array = other.tamanhoarray();
     this->num_elementos = other.numelementos();
-    int tamanho = other.tamanhoarray();
-
-    delete [] this->elementos;
-    this->elementos = new Type[tamanho];
-    this->tam_array = tamanho;
-
-    for(int i = 0; i < tamanho; i++)
+    this->elementos = new Type [this->tam_array];
+    for(int i = 0; i < this->num_elementos; i++)
     {
-        this->insere(other[i]);
+        this->elementos[i] = other[i];
     }
 }
 
@@ -147,6 +143,8 @@ Conjunto<Type>& Conjunto<Type>::operator=(const Conjunto &other)
 {
     this->tam_array = other.tamanhoarray();
     this->num_elementos = other.numelementos();
+    delete [] this->elementos;
+    this->elementos = new Type [this->tam_array];
     for(int i = 0; i < this->num_elementos; i++)
     {
         this->elementos[i] = other[i];
@@ -172,10 +170,15 @@ template <class Type>
 istream &operator>>(istream &in, Conjunto<Type> &conj)
 {
     Type item;
-    while(in.get(item))
-    {
-        conj.insere(item);
-    }
+    cin.ignore();
+
+    do {
+        cin.get(item);
+        if(item != '\n' && item != ' ')
+        {
+            conj.insere(item);
+        }
+    } while(item != '\n');
 
     return in;
 }
