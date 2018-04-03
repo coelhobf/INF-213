@@ -29,7 +29,7 @@ public:
     int tamanhoarray() const;
 
     Type operator[](int i) const;
-    bool operator==(Conjunto&);
+    bool operator==(const Conjunto&);
     Conjunto<Type>& operator=(const Conjunto&);
 
     friend ostream &operator<< <Type>(ostream &,const Conjunto<Type> &conj);
@@ -121,7 +121,7 @@ Type Conjunto<Type>::operator[](int i) const
 }
 
 template <class Type>
-bool Conjunto<Type>::operator==(Conjunto &other)
+bool Conjunto<Type>::operator==(const Conjunto &other)
 {
     int tamanho = this->numelementos();
     if(this->numelementos() != other.numelementos())
@@ -161,11 +161,15 @@ template <class Type>
 ostream &operator<<(ostream &out,const Conjunto<Type> &conj)
 {
     out<< "{";
-    for(int i = 0; i < conj.numelementos() - 1; i++)
+    for(int i = 0; i < conj.numelementos(); i++)
     {
-        out<< conj[i] << ",";
+        if(i != 0)
+        {
+            out<< ",";
+        }
+        out<< conj[i];
     }
-    out<< conj[conj.numelementos() - 1] << "}";
+    out<< "}";
 
     return out;
 }
