@@ -174,15 +174,11 @@ template <class Type>
 istream &operator>>(istream &in, Conjunto<Type> &conj)
 {
     Type item;
-    in.ignore();
     
-    do {
-        in.get(item);
-        if(item != '\n' && item != ' ')
-        {
-            conj.insere(item);
-        }
-    } while(item != '\n');
+    while(in>> item)
+    {
+        conj.insere(item);
+    }
 
     return in;
 }
