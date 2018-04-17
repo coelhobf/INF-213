@@ -52,6 +52,9 @@ public:
 	void empty() const {return size() == 0;};
 	int size() const {return dataSize;};
 
+	int eraseMatchingElements(const T&item);
+	void sortedInsert(const T&item);
+
 
 private:
 	T* data; //declare o membro de dados data, que devera armazenar os elementos da lista
@@ -132,7 +135,9 @@ void MyVec<T>::resizeCapacity(int newCapacity) {
 	//Exemplo de execucao:
 	//data=[1,2,3,,], dataSize=3, dataCapacity=5 (vetor de capacidade 5, com 3 elementos ocupados)
 	//se chamarmos resizeCapacity(10), os membros de dados deverao ter os seguintes valores:
-	//data=[1,2,3,,,,,,,], dataSize=3, dataCapacity=10
+	//data=[1,2,3,,,,,,,], dataSize=3, dataCapacity=10.
+
+	if(newCapacity <= this->dataCapacity) return;
 
 	T* temp = this->data;
 	this->data = new T[newCapacity];
@@ -212,6 +217,61 @@ std::ostream& operator<<(std::ostream &out, const MyVec<T2> &v) {
 	for(int i=0;i<v.size();i++) out << v.data[i] << " ";
 	out << "\n";
 	return out;
+}
+
+/*
+	Alocando mais memória seria assim:
+
+	MyVec temp();
+	temp.resize(this->dataCapacity);
+
+	int removidos = 0;
+	
+	for(int i=0; i<this->capacidade; i++)
+	{
+		if(this->data[i] == item)
+		{
+			removidos++
+			continue;
+		}
+		temp.push_back(item);
+	}
+
+	this->dataSize -= removidos;
+	(*this) = temp;
+
+	return removidos;	
+*/
+template<class T>
+int MyVec<T>::eraseMatchingElements(const T&item)
+{
+	int removidos = 0;
+
+	for(int i=0; i<this->dataCapacity-1; i++)
+	{
+		if(this->data[i] == item)
+		{
+			removidos ++;
+			this->data[i] = this->data[i+1];
+		}
+	}
+	if(item == this->data[this->dataCapacity-1])
+	{
+		removidos--;
+	}
+
+	this->dataSize -= removidos;
+
+	return removidos;
+}
+
+template<class T>
+void MyVec<T>::sortedInsert(const T&item)
+{
+	for(int i=0; i<this->dataCapacity; i++)
+	{
+		if(item <=)
+	}
 }
 
 #endif
