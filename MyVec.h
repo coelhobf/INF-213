@@ -246,21 +246,23 @@ template<class T>
 int MyVec<T>::eraseMatchingElements(const T&item)
 {
 	int removidos = 0;
+	int removidosLocal;
 
-	for(int i=0; i<this->dataCapacity-1; i++)
+	for(int i = 0; i < this->dataSize; i++)
 	{
 		if(this->data[i] == item)
 		{
-			removidos ++;
-			this->data[i] = this->data[i+1];
+			removidosLocal = 0;
+			int j; for(j=0; this->data[i+j] == item && (i+j) < this->dataSize; j++) { removidosLocal++; }
+			
+			this->dataSize -= removidosLocal;
+			for(int k = i; k < this->dataSize; k++)
+			{
+				this->data[k] = this->data[k+j];
+			}
+			removidos += removidosLocal;
 		}
 	}
-	if(item == this->data[this->dataCapacity-1])
-	{
-		removidos--;
-	}
-
-	this->dataSize -= removidos;
 
 	return removidos;
 }
@@ -268,10 +270,16 @@ int MyVec<T>::eraseMatchingElements(const T&item)
 template<class T>
 void MyVec<T>::sortedInsert(const T&item)
 {
-	for(int i=0; i<this->dataCapacity; i++)
+	for(int i = 0; i < this->dataCapacity; i++)
 	{
-		if(item <=)
+		if(item <= this->data[i])
+		{
+			this->insert(item, i);
+			return;
+		}
 	}
+	
+	this->insert(item, this->dataSize);
 }
 
 #endif
