@@ -1,14 +1,17 @@
-debug: Tetris Jogo
-	g++ Tetris.o Jogo.o -g -o Tetris.out
+debug: Tetris.o jogoTetris.o
+	g++ Tetris.o jogoTetris.o -g -o Tetris.out
 
-compile: Tetris Jogo
-	g++ Tetris.o Jogo.o -lncurses -o Tetris.out
+compile: Tetris.o jogoTetris.o
+	g++ Tetris.o jogoTetris.o -lncurses -o Tetris.out
 
-Tetris: Tetris.h Tetris.cpp
+Tetris.o: Tetris.h Tetris.cpp
 	g++ -c Tetris.cpp
 
-Jogo: jogoTetris.cpp
+jogoTetris.o: jogoTetris.cpp
 	g++ -c -lncurses jogoTetris.cpp
 
 fast:
 	g++ *.cpp -lncurses -g -o Tetris.out
+
+clear:
+	rm *.out *.o out.txt

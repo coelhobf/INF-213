@@ -4,9 +4,25 @@ using namespace std;
 #ifndef TETRIS_H
 #define TETRIS_H
 
+/*funcoes para teste*/
+template<class T>
+void printCerr(T **m, int a, int l, string msg)
+{
+    cerr<< msg << endl;
+    for(int i=0; i<a; i++)
+    {
+        for(int j=0; j<l; j++)
+        {
+            cerr<< m[i][j];
+        }
+        cerr<< endl;
+    }
+    cerr<< endl;
+}
+
 /*Realocação de vetor*/
 template<class Type>
-Type* realocaVetor(Type* vetor, int &tamanho, int novoTamanho)
+void realocaVetor(Type* &vetor, int &tamanho, int novoTamanho)
 {
     Type* novoVetor = new Type[novoTamanho];
     
@@ -21,13 +37,16 @@ Type* realocaVetor(Type* vetor, int &tamanho, int novoTamanho)
     }
     tamanho = novoTamanho;
 
-    delete [] vetor;
-    return novoVetor;
+    if(vetor)
+    {
+        delete [] vetor;
+    }
+    vetor = novoVetor;
 }
 
 /*Troca*/
 template<class Type>
-void swap(Type *a, Type *b)
+void swap(Type* &a, Type* &b)
 {
     Type *c = a;
     a = b;
@@ -37,7 +56,7 @@ void swap(Type *a, Type *b)
 void swap(Type &a, Type &b)
 {
     Type &c = a;
-    a = b;
+    a = b;	while(true) {		
     b = c;
 }*/
 
@@ -60,7 +79,7 @@ void inverteColunaMatriz(Type **matriz, int altura, int largura)
     {
         for(int j=0; j < (largura/2); j++)
         {
-            matriz[i][j] = matriz[i][largura-j-1];
+            swap(matriz[i][j], matriz[i][largura-j-1]);
         }
     }
 }
@@ -71,6 +90,7 @@ Type** rotacionaMatriz(Type** matriz, int &altura, int &largura, int rotacao)
 {
     if(rotacao == 0 || rotacao == 360)
     {
+        //printCerr(matriz, altura, largura, "rotacao = 0");
         return matriz;
     }
     
@@ -83,6 +103,7 @@ Type** rotacionaMatriz(Type** matriz, int &altura, int &largura, int rotacao)
         }
 
         inverteLinhaMatriz(matriz, altura);
+
         for(int i=0; i<altura; i++)
         {
             for(int j=0; j<largura; j++)
@@ -99,6 +120,7 @@ Type** rotacionaMatriz(Type** matriz, int &altura, int &largura, int rotacao)
 
         swap(altura, largura);
 
+        //printCerr(novaMatriz, altura, largura, "rotacao = 90");
         return novaMatriz;
     }
 
@@ -107,6 +129,7 @@ Type** rotacionaMatriz(Type** matriz, int &altura, int &largura, int rotacao)
         inverteColunaMatriz(matriz, altura, largura);
         inverteLinhaMatriz(matriz, altura);
 
+        //printCerr(matriz, altura, largura, "rotacao = 180");
         return matriz;
     }
 
@@ -116,6 +139,7 @@ Type** rotacionaMatriz(Type** matriz, int &altura, int &largura, int rotacao)
         inverteColunaMatriz(matriz, altura, largura);
         inverteLinhaMatriz(matriz, altura);
 
+        //printCerr(matriz, altura, largura, "rotacao = 270");
         return matriz;
     }
 }
@@ -191,6 +215,11 @@ struct Peca
         this->forma = rotacionaMatriz(this->forma, this->altura, this->largura, rotacao);
         return *this;
     }
+
+    char g(int i, int j)
+    {
+        return this->forma[i][j];
+    }
 };
 
 class Tetris
@@ -227,7 +256,10 @@ public:
         delete [] this->alturas;
         for(int i=0; i < this->largura; i++)
         {
-            delete [] this->jogo[i];
+            if(this->alturas[i] > 0)
+            {
+                delete [] this->jogo[i];
+            }
         }
         delete [] this->jogo;
     }
@@ -267,6 +299,7 @@ public:
     {
         this->alturas = NULL;
         this->jogo = NULL;
+        this->largura = 0;
         *this = other;
     }
     
@@ -275,7 +308,7 @@ public:
     estado de tal pixelno jogo atual.*/
     char get(int coluna, int linha) const
     {
-        if(this->jogo[coluna] != NULL && linha < this->alturas[coluna])
+        if(coluna < this->largura && linha < this->alturas[coluna])
         {
             return this->jogo[coluna][linha];
         }
@@ -290,19 +323,20 @@ public:
     sua largura).*/
     void removeColuna(int coluna)
     {
-        if(this->jogo[coluna] != NULL)
+        if(this->jogo[coluna])
         {
             delete [] this->jogo[coluna];
         }
         
-        for(int i = coluna; i < this->largura; i++)
+        for(int i = coluna; i < this->largura-1; i++)
         {
             this->jogo[i] = this->jogo[i+1];
             this->alturas[i] = this->alturas[i+1];
         }
-
-        this->jogo = realocaVetor(this->jogo, this->largura, this->largura-1);
-        this->alturas = realocaVetor(this->alturas, this->largura, this->largura-1);
+        
+        int tamAtual = this->largura;
+        realocaVetor(this->jogo, tamAtual, tamAtual-1);
+        realocaVetor(this->alturas, tamAtual, tamAtual-1);
 
         this->largura--;
     }
@@ -397,29 +431,68 @@ public:
     valer 0, 90, 180 ou 270).*/
     bool adicionaForma(int coluna, int linha, char id, int rotacao)
     {
-        Peca forma = this->pecas[this->id(id)];
-        forma.rotaciona(rotacao).rotaciona(90);
+        Peca p = this->pecas[this->id(id)];
+        p.rotaciona(rotacao);
+
+        for(int i=0; i<p.altura; i++)
+        {
+            for(int j=0; j<p.largura; j++)
+            {
+                int nC = coluna + i, nL = linha - j;
+
+                if(nL < 0) return false;
+                if(nC < 0 || nC >= this->largura) return false;
+                if(p.g(i,j) != ' ' && this->get(nC,nL) != ' ') return false;
+            }
+        }
+
+        for(int i=0; i<p.altura; i++)
+        {
+            for(int j=0; j<p.largura; j++)
+            {
+                int nC = coluna + i, nL = linha - j;
+                int nT = linha + (p.g(0,j) == ' ' ? -1 : 0);
+
+                if(nT > this->getAltura(nC))
+                { realocaVetor(this->jogo[nC], this->alturas[nC], nT); }
+
+                if(p.g(i,j) != ' ') this->jogo[nC][nL] = p.g(i,j);
+            }
+        }
+
+        return true;
+
+        /*forma.rotaciona(rotacao).rotaciona(90);
 
         for(int i=0; i < forma.altura; i++)
         {
             for(int j=0; j < forma.largura; j++)
             {
-                if(forma.forma[i][j] != ' ' && this->get(i, j) != ' ')
+                if(i+coluna < this->largura && i+coluna >= 0)
                 {
-                    return false;
+                    if(forma.forma[i][j] != ' ' && this->get(coluna+i, linha-forma.largura+1+j) != ' ')
+                    {
+                        return false;
+                    }
+                } else return false;
+            }
+        }
+
+        for(int i=0; i < forma.altura; i++)
+        {
+            int nTam = linha + (forma.forma[i][forma.largura-1] == ' ' ? -1 : 0);
+            if(nTam > this->getAltura(coluna+i))
+            {
+                realocaVetor(this->jogo[coluna+i], this->alturas[coluna+i], nTam);
+            }        
+            for(int j=0; j < forma.largura; j++)
+            {
+                if(forma.forma[i][j] != ' ')
+                {
+                    this->jogo[coluna+i][linha-forma.largura+1+j] = forma.forma[i][j];
                 }
             }
-        }
-
-        for(int i=0; i < forma.altura; i++)
-        {
-            int nTam = largura + forma.largura + (forma.forma[i][largura-1] == ' ' ? -1 : 0);
-            this->jogo[i+coluna] = realocaVetor(this->jogo[i+coluna], this->alturas[i+coluna], nTam);
-            for(int j=0; j < forma.largura; j++)
-            {
-                this->jogo[i+coluna][j+largura] = forma.forma[i][j];
-            }
-        }
+        }*/
     }
 
     /*Define pecas*/
@@ -462,7 +535,7 @@ public:
         /*Peça T*/
         char **t = new char *[2];
         t[0] = new char[3] {'T','T','T'};
-        t[1] = new char[3] {' ',' ','T'};
+        t[1] = new char[3] {' ','T',' '};
         this->pecas[5] = Peca(t, 2, 3, 'T');
 
         /*Peça Z*/

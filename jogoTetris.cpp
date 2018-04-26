@@ -89,7 +89,7 @@ int main() {
 			posicaoPecaAtual = larguraJogo/2-2;
 			alturaPecaAtual = alturaMaximaJogo;
 			rotacaoPecaAtual = 0;
-			jogoComPecaCaindo.removeLinhasCompletas();	
+			//jogoComPecaCaindo.removeLinhasCompletas();	
 			jogo = jogoComPecaCaindo;	
 		}
 
