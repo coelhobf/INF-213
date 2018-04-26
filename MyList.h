@@ -81,7 +81,7 @@ public:
 	void empty() const {return size() == 0;};
 	int size() const {return dataSize;}; // na STL List, a funcao size() calcula o tamanho da lista dinamicamente (exercicio: qual a ordem de complexidade?)
 	int eraseMatchingElements(const T&item);
-	Node<T>* reverse(Node<T> *it);
+	Node<T>*& reverse(Node<T>* &it);
 	void reverse();
 
 private:
@@ -117,12 +117,14 @@ template<class T>
 void MyList<T>::destroy()
 {
 	iterator it = this->dataFirst;
+	if(it == NULL) return;
 	while(it->next != NULL)
 	{
 		it = it->next;
 		delete this->dataFirst;
 		this->dataFirst = it;
 	}
+	delete this->dataFirst;
 	
 	this->dataFirst = this->dataLast = NULL;
 	this->dataSize = 0;
@@ -301,7 +303,7 @@ int MyList<T>::eraseMatchingElements(const T&item)
 }
 
 template<class T>
-Node<T>* MyList<T>::reverse(Node<T> *it)
+Node<T>*& MyList<T>::reverse(Node<T>* &it)
 {
 	if(it == NULL) return it;
 	if(it->next == NULL)
@@ -309,12 +311,13 @@ Node<T>* MyList<T>::reverse(Node<T> *it)
 		return it->next;
 	}
 	(this->reverse(it->next)) = it;
+	return it->next;
 }
 
 template<class T>
 void MyList<T>::reverse()
 {
-	this->reverse(this->dataFirst);
+	(this->reverse(this->dataFirst)) = NULL;
 	swap(this->dataFirst, this->dataLast);
 }
 

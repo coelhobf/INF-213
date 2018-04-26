@@ -53,7 +53,7 @@ void testaConstrutoresEtc() {
   v.insert('w',it);
 
   cout << v << endl;
-
+  cout << v << endl;
   while(v.next(it)!=v.end()) it = v.next(it);
   v.insert('z',it);
 
