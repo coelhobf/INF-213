@@ -52,14 +52,6 @@ void swap(Type* &a, Type* &b)
     a = b;
     b = c;
 }
-/*template<class Type>
-void swap(Type &a, Type &b)
-{
-    Type &c = a;
-    a = b;	while(true) {		
-    b = c;
-}*/
-
 
 /*Inverte Linhas da Matriz*/
 template<class Type>
@@ -164,7 +156,7 @@ struct Peca
 
     ~Peca()
     {
-        destroi();
+        this->destroi();
     }
 
     Peca(Peca &peca)
@@ -181,17 +173,17 @@ struct Peca
         {
             return *this;
         }
-        destroi();
+        this->destroi();
 
         this->id = peca.id;
         this->altura = peca.altura;
         this->largura = peca.largura;
 
         this->forma = new char *[this->altura];
-        for(int i=0; i < altura; i++)
+        for(int i=0; i < this->altura; i++)
         {
             this->forma[i] = new char [this->largura];
-            for(int j=0; j < largura; j++)
+            for(int j=0; j < this->largura; j++)
             {
                 this->forma[i][j] = peca.forma[i][j];
             }
@@ -202,12 +194,13 @@ struct Peca
 
     void destroi()
     {
-        /*for(int i=0; i<this->altura; i++)
+        if(!this->forma) return;
+        for(int i=0; i<this->altura; i++)
         {
             delete [] this->forma[i];
         }
-        delete [] this->forma;*/
-        //VERIFICAR DEPOIS
+        delete [] this->forma;
+        this->forma = 0;
     }
 
     Peca& rotaciona(int rotacao)
@@ -216,7 +209,7 @@ struct Peca
         return *this;
     }
 
-    char g(int i, int j)
+    char get(int i, int j)
     {
         return this->forma[i][j];
     }
@@ -243,7 +236,7 @@ public:
 
         for(int i=0; i<largura; i++)
         {
-            this->jogo[i] = NULL;
+            this->jogo[i] = 0;
             this->alturas[i] = 0;
         }
 
@@ -253,15 +246,20 @@ public:
     void destroi()
     {
         delete [] this->pecas;
-        delete [] this->alturas;
         for(int i=0; i < this->largura; i++)
         {
-            if(this->alturas[i] > 0)
+            if(this->jogo[i])
             {
                 delete [] this->jogo[i];
             }
         }
         delete [] this->jogo;
+        delete [] this->alturas;
+
+        this->pecas = 0;
+        this->jogo = 0;
+        this->alturas = 0;
+        this->largura = 0;
     }
 
     Tetris& operator=(const Tetris& other)
@@ -270,7 +268,7 @@ public:
         {
             return *this;
         }
-        destroi();
+        this->destroi();
 
         this->largura = other.largura;
         this->alturas = new int[this->largura];
@@ -281,6 +279,7 @@ public:
             this->alturas[i] = other.alturas[i];
             if(this->alturas[i] == 0)
             {
+                this->jogo[i] = 0;
                 continue;
             }
             this->jogo[i] = new char [this->alturas[i]];
@@ -297,8 +296,8 @@ public:
 
     Tetris(const Tetris& other)
     {
-        this->alturas = NULL;
-        this->jogo = NULL;
+        this->alturas = 0;
+        this->jogo = 0;
         this->largura = 0;
         *this = other;
     }
@@ -310,7 +309,8 @@ public:
     {
         if(coluna < this->largura && linha < this->alturas[coluna])
         {
-            return this->jogo[coluna][linha];
+            //cerr<< '"' << this->jogo[coluna][linha] << '"' << endl;
+            return (this->jogo[coluna][linha] == '\0' ? ' ' : this->jogo[coluna][linha]);
         }
         else
         {
@@ -346,22 +346,35 @@ public:
     completa ospixels acima de tal linha são “deslocados para baixo”.*/
     void removeLinhasCompletas()
     {
-        int linhaRemover;
+        int minAlt = this->alturas[0];
+        for(int i=0; i < this->largura; i++)
+        { if(this->alturas[i] < minAlt) { minAlt = this->alturas[i]; } }
 
-        for(int j=0; j < this->alturas[0]; j++)
+        for(int j=0; j < minAlt; j++)
         {
+            bool remove = true;
             for(int i=0; i < this->largura; i++)
             {
-                if(j < this->alturas[i])
+                if(this->get(i,j) == ' ')
                 {
-                    //cout<< this->jogo[i][j] << " ";
+                    remove = false;
                 }
-                else
-                {
-                    //cout<< "  ";
-                }  
             }
-            //cout<< endl;
+
+            if(!remove) { continue; }
+
+            for(int i=0; i < this->largura; i++)
+            {
+                for(int k=0; k < this->alturas[i] - 1; k++)
+                {
+                    if(k >= j)
+                    {
+                        this->jogo[i][k] = this->jogo[i][k+1];
+                    }
+                }
+                realocaVetor(this->jogo[i], this->alturas[i], this->alturas[i] - 1);
+            }
+            j--;
         }
     }
     
@@ -438,11 +451,10 @@ public:
         {
             for(int j=0; j<p.largura; j++)
             {
-                int nC = coluna + i, nL = linha - j;
+                int nC = coluna + j, nL = linha - i;
 
-                if(nL < 0) return false;
-                if(nC < 0 || nC >= this->largura) return false;
-                if(p.g(i,j) != ' ' && this->get(nC,nL) != ' ') return false;
+                if(nL < 0 || nC < 0 || nC >= this->largura) return false;
+                if(p.get(i,j) != ' ' && this->get(nC,nL) != ' ') return false;
             }
         }
 
@@ -450,49 +462,18 @@ public:
         {
             for(int j=0; j<p.largura; j++)
             {
-                int nC = coluna + i, nL = linha - j;
-                int nT = linha + (p.g(0,j) == ' ' ? -1 : 0);
+                int nC = coluna + j, nL = linha - i;
 
+                int nT = linha + 1 + (p.get(0,j) == ' ' ? -1 : 0);
+                
                 if(nT > this->getAltura(nC))
                 { realocaVetor(this->jogo[nC], this->alturas[nC], nT); }
 
-                if(p.g(i,j) != ' ') this->jogo[nC][nL] = p.g(i,j);
+                if(p.get(i,j) != ' ') this->jogo[nC][nL] = p.get(i,j);
             }
         }
 
         return true;
-
-        /*forma.rotaciona(rotacao).rotaciona(90);
-
-        for(int i=0; i < forma.altura; i++)
-        {
-            for(int j=0; j < forma.largura; j++)
-            {
-                if(i+coluna < this->largura && i+coluna >= 0)
-                {
-                    if(forma.forma[i][j] != ' ' && this->get(coluna+i, linha-forma.largura+1+j) != ' ')
-                    {
-                        return false;
-                    }
-                } else return false;
-            }
-        }
-
-        for(int i=0; i < forma.altura; i++)
-        {
-            int nTam = linha + (forma.forma[i][forma.largura-1] == ' ' ? -1 : 0);
-            if(nTam > this->getAltura(coluna+i))
-            {
-                realocaVetor(this->jogo[coluna+i], this->alturas[coluna+i], nTam);
-            }        
-            for(int j=0; j < forma.largura; j++)
-            {
-                if(forma.forma[i][j] != ' ')
-                {
-                    this->jogo[coluna+i][linha-forma.largura+1+j] = forma.forma[i][j];
-                }
-            }
-        }*/
     }
 
     /*Define pecas*/
