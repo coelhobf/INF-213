@@ -279,7 +279,7 @@ const T& MyList<T>::deref(const iterator curr) const { //Retorna o elemento da l
 	return curr->data;
 }
 
-template<class T>
+/*template<class T>
 int MyList<T>::eraseMatchingElements(const T&item)
 {
 	MyList temp;
@@ -291,14 +291,35 @@ int MyList<T>::eraseMatchingElements(const T&item)
 		if(this->deref(it) == item)
 		{
 			removidos++;
+			it = this->next(it);
 			continue;
 		}
-		temp.push_back(item);
+		temp.push_back(this->deref(it));
 
 		it = this->next(it);
 	}
 	this->dataSize -= removidos;
 	(*this) = temp;
+	return removidos;
+}*/
+
+template<class T>
+int MyList<T>::eraseMatchingElements(const T&item)
+{
+	int removidos = 0;
+
+	Node<T>* it = this->begin();
+	while(it != NULL)
+	{
+		if(this->deref(it) == item)
+		{
+			removidos++;
+			it = this->erase(it);
+			continue;
+		}
+		it = this->next(it);
+	}
+	this->dataSize;
 	return removidos;
 }
 
