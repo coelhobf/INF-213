@@ -4,31 +4,17 @@ using namespace std;
 #ifndef TETRIS_H
 #define TETRIS_H
 
-/*funcoes para teste*/
-template<class T>
-void printCerr(T **m, int a, int l, string msg)
-{
-    cerr<< msg << endl;
-    for(int i=0; i<a; i++)
-    {
-        for(int j=0; j<l; j++)
-        {
-            cerr<< m[i][j];
-        }
-        cerr<< endl;
-    }
-    cerr<< endl;
-}
+/*Funções globais genéricas que foram ultilizadas na implementação da classe*/
 
 /*Realocação de vetor*/
-template<class Type>
-void realocaVetor(Type* &vetor, int &tamanho, int novoTamanho)
+template <class Type>
+void realocaVetor(Type *&vetor, int &tamanho, int novoTamanho)
 {
-    Type* novoVetor = new Type[novoTamanho];
-    
-    for(int i=0; i < novoTamanho; i++)
+    Type *novoVetor = new Type[novoTamanho];
+
+    for (int i = 0; i < novoTamanho; i++)
     {
-        if(i >= tamanho)
+        if (i >= tamanho)
         {
             novoVetor[i] = Type();
             continue;
@@ -37,16 +23,16 @@ void realocaVetor(Type* &vetor, int &tamanho, int novoTamanho)
     }
     tamanho = novoTamanho;
 
-    if(vetor)
+    if (vetor)
     {
-        delete [] vetor;
+        delete[] vetor;
     }
     vetor = novoVetor;
 }
 
 /*Troca*/
-template<class Type>
-void swap(Type* &a, Type* &b)
+template <class Type>
+void swap(Type *&a, Type *&b)
 {
     Type *c = a;
     a = b;
@@ -54,61 +40,61 @@ void swap(Type* &a, Type* &b)
 }
 
 /*Inverte Linhas da Matriz*/
-template<class Type>
+template <class Type>
 void inverteLinhaMatriz(Type **matriz, int altura)
 {
-    for(int i=0; i<altura/2; i++)
+    for (int i = 0; i < altura / 2; i++)
     {
-        swap(matriz[i], matriz[altura-1-i]);
+        swap(matriz[i], matriz[altura - 1 - i]);
     }
 }
 
 /*Inverte coluna matriz*/
-template<class Type>
+template <class Type>
 void inverteColunaMatriz(Type **matriz, int altura, int largura)
 {
-    for(int i=0; i < altura; i++)
+    for (int i = 0; i < altura; i++)
     {
-        for(int j=0; j < (largura/2); j++)
+        for (int j = 0; j < (largura / 2); j++)
         {
-            swap(matriz[i][j], matriz[i][largura-j-1]);
+            swap(matriz[i][j], matriz[i][largura - j - 1]);
         }
     }
 }
 
 /*Rotacao de Matriz*/
-template<class Type>
-Type** rotacionaMatriz(Type** matriz, int &altura, int &largura, int rotacao)
+template <class Type>
+Type **rotacionaMatriz(Type **matriz, int &altura, int &largura, int rotacao)
 {
-    if(rotacao == 0 || rotacao == 360)
+    if (rotacao == 0 || rotacao == 360)
     {
         //printCerr(matriz, altura, largura, "rotacao = 0");
         return matriz;
     }
-    
-    if(rotacao == 90)
+
+    if (rotacao == 90)
     {
-        Type ** novaMatriz = new Type *[largura];
-        for(int i=0; i<largura; i++)
+        Type **novaMatriz = new Type *[largura];
+        for (int i = 0; i < largura; i++)
         {
             novaMatriz[i] = new Type[altura];
         }
 
         inverteLinhaMatriz(matriz, altura);
 
-        for(int i=0; i<altura; i++)
+        for (int i = 0; i < altura; i++)
         {
-            for(int j=0; j<largura; j++)
+            for (int j = 0; j < largura; j++)
             {
                 novaMatriz[j][i] = matriz[i][j];
             }
         }
 
-        for(int i=0; i<altura; i++)
+        for (int i = 0; i < altura; i++)
         {
-            delete [] matriz[i];
+            delete[] matriz[i];
         }
-        delete [] matriz;
+        delete[] matriz;
 
         swap(altura, largura);
 
@@ -116,7 +102,7 @@ Type** rotacionaMatriz(Type** matriz, int &altura, int &largura, int rotacao)
         return novaMatriz;
     }
 
-    if(rotacao == 180)
+    if (rotacao == 180)
     {
         inverteColunaMatriz(matriz, altura, largura);
         inverteLinhaMatriz(matriz, altura);
@@ -125,7 +111,7 @@ Type** rotacionaMatriz(Type** matriz, int &altura, int &largura, int rotacao)
         return matriz;
     }
 
-    if(rotacao == 270)
+    if (rotacao == 270)
     {
         matriz = rotacionaMatriz(matriz, altura, largura, 90);
         inverteColunaMatriz(matriz, altura, largura);
@@ -136,401 +122,109 @@ Type** rotacionaMatriz(Type** matriz, int &altura, int &largura, int rotacao)
     }
 }
 
-
-struct Peca
+/*Declaração classe peça*/
+class Peca
 {
+private:
     char **forma;
     int altura;
     int largura;
     char id;
 
-    Peca(char **forma, int altura, int largura, char id)
-    {
-        this->forma = forma;
-        this->altura = altura;
-        this->largura = largura;
-        this->id = id;
-    }
+public:
+    
+    /*Costrutor de peça com argumentos, recebe um matriz, altura, largura e id*/
+    Peca(char **forma, int altura, int largura, char id);
 
-    Peca(){}
+    /*Construtor de cópia, copia uma peça usando o operador de atribuição*/
+    Peca(Peca& peca);
 
-    ~Peca()
-    {
-        this->destroi();
-    }
+    /*Costrutor vazio para criação de vetor*/
+    Peca();
+    
+    /*Destrutor de peça, chama a função destroi*/
+    ~Peca();
 
-    Peca(Peca &peca)
-    {
-        this->forma = NULL;
-        this->altura = 0;
-        this->largura = 0;
-        *this = peca;
-    }
+    /*Operador de atribuição, recebe uma peça e copia*/
+    Peca &operator=(const Peca &peca);
 
-    Peca& operator=(const Peca &peca)
-    {
-        if(this == &peca)
-        {
-            return *this;
-        }
-        this->destroi();
+    /*Método de rotação, ultiliza as funções genéricas para rotacionar a matriz*/
+    Peca& rotaciona(int rotacao);
 
-        this->id = peca.id;
-        this->altura = peca.altura;
-        this->largura = peca.largura;
+    /*Retorna o caracter referente a uma dada posição da peça*/
+    char get(int i, int j);
 
-        this->forma = new char *[this->altura];
-        for(int i=0; i < this->altura; i++)
-        {
-            this->forma[i] = new char [this->largura];
-            for(int j=0; j < this->largura; j++)
-            {
-                this->forma[i][j] = peca.forma[i][j];
-            }
-        }
+    int getAltura() const { return this->altura; }
+    int getLargura() const { return this->largura; }
 
-        return *this;
-    }
-
-    void destroi()
-    {
-        if(!this->forma) return;
-        for(int i=0; i<this->altura; i++)
-        {
-            delete [] this->forma[i];
-        }
-        delete [] this->forma;
-        this->forma = 0;
-    }
-
-    Peca& rotaciona(int rotacao)
-    {
-        this->forma = rotacionaMatriz(this->forma, this->altura, this->largura, rotacao);
-        return *this;
-    }
-
-    char get(int i, int j)
-    {
-        return this->forma[i][j];
-    }
+private:
+    /*Desaloca a classe peça*/
+    void destroi();
 };
 
+
+/*Declaração classe tetris*/
 class Tetris
 {
 private:
     char **jogo;
     int *alturas;
     int largura;
-
     Peca *pecas;
 
 public:
-
-    /*Construtor com um argumento: o argumento do construtor será um inteiro indicando
-    a largura (numero de colunas) do jogo Tetris que será representado.*/
-    Tetris(int largura)
-    {
-        this->jogo = new char *[largura];
-        this->alturas = new int[largura];
-        this->largura = largura;
-
-        for(int i=0; i<largura; i++)
-        {
-            this->jogo[i] = 0;
-            this->alturas[i] = 0;
-        }
-
-        this->alocaPecas();
-    }
-
-    void destroi()
-    {
-        delete [] this->pecas;
-        for(int i=0; i < this->largura; i++)
-        {
-            if(this->jogo[i])
-            {
-                delete [] this->jogo[i];
-            }
-        }
-        delete [] this->jogo;
-        delete [] this->alturas;
-
-        this->pecas = 0;
-        this->jogo = 0;
-        this->alturas = 0;
-        this->largura = 0;
-    }
-
-    Tetris& operator=(const Tetris& other)
-    {
-        if(this == &other)
-        {
-            return *this;
-        }
-        this->destroi();
-
-        this->largura = other.largura;
-        this->alturas = new int[this->largura];
-        this->jogo = new char *[this->largura];
-
-        for(int i=0; i < this->largura; i++)
-        {
-            this->alturas[i] = other.alturas[i];
-            if(this->alturas[i] == 0)
-            {
-                this->jogo[i] = 0;
-                continue;
-            }
-            this->jogo[i] = new char [this->alturas[i]];
-            for(int j=0; j < this->alturas[i]; j++)
-            {
-                this->jogo[i][j] = other.jogo[i][j];
-            }
-        }
-
-        this->alocaPecas();
-
-        return *this;
-    }
-
-    Tetris(const Tetris& other)
-    {
-        this->alturas = 0;
-        this->jogo = 0;
-        this->largura = 0;
-        *this = other;
-    }
     
-    /*Método get(int c,int l): recebe dois argumentos: a coluna (primeiro argumento)
-    e a linha(segundo argumento) de um pixel e retorna um caractere que representa o
-    estado de tal pixelno jogo atual.*/
-    char get(int coluna, int linha) const
-    {
-        if(coluna < this->largura && linha < this->alturas[coluna])
-        {
-            //cerr<< '"' << this->jogo[coluna][linha] << '"' << endl;
-            return (this->jogo[coluna][linha] == '\0' ? ' ' : this->jogo[coluna][linha]);
-        }
-        else
-        {
-            return char(' ');
-        }
-    }
+    /*Costrutor com argumento, recebe a largura do jogo*/
+    Tetris(int largura);
 
-    /*Método removeColuna(char c): dado o índice c de
-    uma coluna (0<= c < número de colunas),remove a coluna do jogo (diminuindo, assim,
-    sua largura).*/
-    void removeColuna(int coluna)
-    {
-        if(this->jogo[coluna])
-        {
-            delete [] this->jogo[coluna];
-        }
-        
-        for(int i = coluna; i < this->largura-1; i++)
-        {
-            this->jogo[i] = this->jogo[i+1];
-            this->alturas[i] = this->alturas[i+1];
-        }
-        
-        int tamAtual = this->largura;
-        realocaVetor(this->jogo, tamAtual, tamAtual-1);
-        realocaVetor(this->alturas, tamAtual, tamAtual-1);
+    /*Operador de atribuição, recebe um jogo, e copia*/
+    Tetris &operator=(const Tetris &other);
 
-        this->largura--;
-    }
-    
-    /*Método removeLinhasCompletas: remove todos os pixels do jogo que estiverem em
+    /*Construtor de cópia, recebe um jogo e copia usando a função de atribuição*/
+    Tetris(const Tetris &other);
+
+    /*Desaloca a classe Tetris, chamando a função destroi*/
+    ~Tetris();
+
+    /*Método get, recebe uma linha e coluna e retorna caso exista o caracter da peça nesse
+    local, caso contrario retorna ' '*/
+    char get(int coluna, int linha) const;
+
+    /*Método remove coluna, remove uma dada coluna do jogo*/
+    void removeColuna(int coluna);
+
+    /*Método removeLinhasCompletas, remove todos os pixels do jogo que estiverem em
     linhascompletas (linhas que não contém espaço em branco). Ao remover uma linha
-    completa ospixels acima de tal linha são “deslocados para baixo”.*/
-    void removeLinhasCompletas()
-    {
-        int minAlt = this->alturas[0];
-        for(int i=0; i < this->largura; i++)
-        { if(this->alturas[i] < minAlt) { minAlt = this->alturas[i]; } }
+    completa os pixels acima de tal linha são “deslocados para baixo”.*/
+    void removeLinhasCompletas();
 
-        for(int j=0; j < minAlt; j++)
-        {
-            bool remove = true;
-            for(int i=0; i < this->largura; i++)
-            {
-                if(this->get(i,j) == ' ')
-                {
-                    remove = false;
-                }
-            }
+    /*Método getNumColunas, retorna o número de colunas (largura) do jogo Tetris.*/
+    int getNumColunas() const;
 
-            if(!remove) { continue; }
-
-            for(int i=0; i < this->largura; i++)
-            {
-                for(int k=0; k < this->alturas[i] - 1; k++)
-                {
-                    if(k >= j)
-                    {
-                        this->jogo[i][k] = this->jogo[i][k+1];
-                    }
-                }
-                realocaVetor(this->jogo[i], this->alturas[i], this->alturas[i] - 1);
-            }
-            j--;
-        }
-    }
-    
-    /*Método getNumColunas: retorna o número de colunas (largura) do jogo Tetris.
-    Esse númerodeverá ser igual ao valor passado pelo construtor do jogo (a não ser
-    que algumas colunastenham sido removidas utilizando o método removeColuna).*/
-    int getNumColunas() const
-    {
-        return this->largura;
-    }
-    
-    /*Método getAltura(int c): retorna a altura da coluna c do jogo. A altura de uma
-    coluna e’ igual aaltura do pixel (não vazio) mais alto da coluna. Uma coluna onde
+    /*Método getAltura, retorna a altura da coluna c do jogo. A altura de uma
+    coluna é igual altura do pixel (não vazio) mais alto da coluna. Uma coluna onde
     todos os pixels são vazios possui altura 0.*/
-    int getAltura(int coluna) const
-    {
-        if(coluna < this->largura)
-        {
-            return this->alturas[coluna];
-        }
-        else
-        {
-            return 0;
-        }
-    }
-    
+    int getAltura(int coluna) const;
+
     /*Método getAltura: retorna a altura maxima do jogo atual.*/
-    int getAltura() const
-    {
-        int max = this->alturas[0];
-        for(int i=0; i <  this->largura; i++)
-        {
-            if(this->alturas[i] > max)
-            {
-                max = this->alturas[i];
-            }
-        }
+    int getAltura() const;
 
-        return max;
-    }
+    /*Método adicionaForma, recebe como argumentos: coluna (um inteiro), linha
+    (inteiro), o id de uma peca (umccaractere) e uma rotacao (um inteiro que pode
+    valer 0, 90, 180 ou 270), e verifica se tal peça pode ser adicionada ao jogo,
+    caso possivel adiciona e retorna true, caso contrário, retorna false*/
+    bool adicionaForma(int coluna, int linha, char id, int rotacao);
 
-    /*Retorna indice da peça de acordo com o id*/
-    int id(char id)
-    {
-        switch(id)
-        {
-            case 'I':
-                return 0;
-            case 'J':
-                return 1;
-            case 'L':
-                return 2;
-            case 'O':
-                return 3;
-            case 'S':
-                return 4;
-            case 'T':
-                return 5;
-            case 'Z':
-                return 6;
-        }
-    }
-    
-    /*Método adicionaForma(int coluna,int linha,char id, int rotacao): método mais
-    importante dasua classe. Recebe como argumentos: coluna (um inteiro), linha
-    (inteiro), o id de uma peca (umcaractere) e uma rotacao (um inteiro que pode
-    valer 0, 90, 180 ou 270).*/
-    bool adicionaForma(int coluna, int linha, char id, int rotacao)
-    {
-        Peca p = this->pecas[this->id(id)];
-        p.rotaciona(rotacao);
-
-        for(int i=0; i<p.altura; i++)
-        {
-            for(int j=0; j<p.largura; j++)
-            {
-                int nC = coluna + j, nL = linha - i;
-
-                if(nL < 0 || nC < 0 || nC >= this->largura) return false;
-                if(p.get(i,j) != ' ' && this->get(nC,nL) != ' ') return false;
-            }
-        }
-
-        for(int i=0; i<p.altura; i++)
-        {
-            for(int j=0; j<p.largura; j++)
-            {
-                int nC = coluna + j, nL = linha - i;
-
-                int nT = linha + 1 + (p.get(0,j) == ' ' ? -1 : 0);
-                
-                if(nT > this->getAltura(nC))
-                { realocaVetor(this->jogo[nC], this->alturas[nC], nT); }
-
-                if(p.get(i,j) != ' ') this->jogo[nC][nL] = p.get(i,j);
-            }
-        }
-
-        return true;
-    }
+private:
+    /*Desaloca a classe Tetris*/    
+    void destroi();
 
     /*Define pecas*/
-    void alocaPecas()
-    {
-        this->pecas = new Peca[7];
+    void alocaPecas();
 
-        /*Peça I*/
-        char **i = new char *[4];
-        i[0] =  new char[1] {'I'};
-        i[1] =  new char[1] {'I'};
-        i[2] =  new char[1] {'I'};
-        i[3] =  new char[1] {'I'};
-        this->pecas[0] = Peca(i, 4, 1, 'I');
+    /*Retorna indice da peça de acordo com o id*/
+    int id(char id);
 
-        /*Peça J*/
-        char **j = new char *[2];
-        j[0] =  new char[4] {'J','J','J','J'};
-        j[1] =  new char[4] {' ',' ',' ','J'};
-        this->pecas[1] = Peca(j, 2, 4, 'J');
-
-        /*Peça L*/
-        char **l = new char *[2];
-        l[0] =  new char[4] {'L','L','L','L'};
-        l[1] =  new char[4] {'L',' ',' ',' '};
-        this->pecas[2] = Peca(l, 2, 4, 'L');
-
-        /*Peça O*/
-        char **o = new char *[2];
-        o[0] = new char[2] {'O','O'};
-        o[1] = new char[2] {'O','O'};
-        this->pecas[3] = Peca(o, 2, 2, 'O');
-
-        /*Peça S*/
-        char **s = new char *[2];
-        s[0] = new char[3] {' ','S','S'};
-        s[1] = new char[3] {'S','S',' '};
-        this->pecas[4] = Peca(s, 2, 3, 'S');
-
-        /*Peça T*/
-        char **t = new char *[2];
-        t[0] = new char[3] {'T','T','T'};
-        t[1] = new char[3] {' ','T',' '};
-        this->pecas[5] = Peca(t, 2, 3, 'T');
-
-        /*Peça Z*/
-        char **z = new char *[2];
-        z[0] = new char[3] {'Z','Z',' '};
-        z[1] = new char[3] {' ','Z','Z'};
-        this->pecas[6] = Peca(z, 2, 3, 'Z');
-    }
-
-    /*Desalocar Peças*/
-    void desalocaPecas()
-    {
-        delete [] this->pecas;
-    }
 };
 
 #endif
