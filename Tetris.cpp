@@ -22,7 +22,7 @@ Peca::~Peca()
     this->destroi();
 }
 
-Peca::Peca(Peca &peca)
+Peca::Peca(const Peca &peca)
 {
     this->forma = 0;
     this->altura = 0;
@@ -209,9 +209,10 @@ void Tetris::removeColuna(int coluna)
 
     this->largura--;
 }
-
-void Tetris::removeLinhasCompletas()
+/*Alterei pra terornar a quantidade de linhas removidas*/
+int Tetris::removeLinhasCompletas()
 {
+    int removidas = 0;
     int minAlt = this->alturas[0];
     for (int i = 0; i < this->largura; i++)
     {
@@ -232,7 +233,11 @@ void Tetris::removeLinhasCompletas()
             }
         }
 
-        if (!remove)
+        if (remove)
+        {
+            removidas++;
+        }
+        else
         {
             continue;
         }
@@ -250,6 +255,8 @@ void Tetris::removeLinhasCompletas()
         }
         j--;
     }
+
+    return removidas;
 }
 
 int Tetris::getNumColunas() const
@@ -397,4 +404,9 @@ void Tetris::alocaPecas()
     z[0] = new char[3]{'Z', 'Z', ' '};
     z[1] = new char[3]{' ', 'Z', 'Z'};
     this->pecas[6] = Peca(z, 2, 3, 'Z');
+}
+
+Peca Tetris::getPeca(char id)
+{
+    return this->pecas[this->id(id)];
 }

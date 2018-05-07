@@ -137,7 +137,7 @@ public:
     Peca(char **forma, int altura, int largura, char id);
 
     /*Construtor de cópia, copia uma peça usando o operador de atribuição*/
-    Peca(Peca& peca);
+    Peca(const Peca& peca);
 
     /*Costrutor vazio para criação de vetor*/
     Peca();
@@ -196,7 +196,7 @@ public:
     /*Método removeLinhasCompletas, remove todos os pixels do jogo que estiverem em
     linhascompletas (linhas que não contém espaço em branco). Ao remover uma linha
     completa os pixels acima de tal linha são “deslocados para baixo”.*/
-    void removeLinhasCompletas();
+    int removeLinhasCompletas();
 
     /*Método getNumColunas, retorna o número de colunas (largura) do jogo Tetris.*/
     int getNumColunas() const;
@@ -214,6 +214,9 @@ public:
     valer 0, 90, 180 ou 270), e verifica se tal peça pode ser adicionada ao jogo,
     caso possivel adiciona e retorna true, caso contrário, retorna false*/
     bool adicionaForma(int coluna, int linha, char id, int rotacao);
+
+    /*Para uso do visual*/
+    Peca getPeca(char id);
 
 private:
     /*Desaloca a classe Tetris*/    
