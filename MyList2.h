@@ -83,8 +83,16 @@ public:
 	void clear();
 
 	//Exercicio: implementar as duas funcoes abaixo supondo que nao ha um membro de dados dataSize (o calculo do tamanho da lista seria dinamico)
-	void empty() const {return size() == 0;};
-	int size() const {return dataSize;}; // na STL List, a funcao size() calcula o tamanho da lista dinamicamente (exercicio: qual a ordem de complexidade?)
+	//void empty() const {return size() == 0;};
+	//int size() const {return dataSize;}; // na STL List, a funcao size() calcula o tamanho da lista dinamicamente (exercicio: qual a ordem de complexidade?)
+
+	voif empty() const;
+	int size() const;
+
+	int eraseMatchingElements(const T&item);
+	Node<T>*& reverse(Node<T>* &it);
+	void reverse();
+	bool compare(Node<T>*, Node<T>*);
 
 private:
 	Node<T> *dataFirst, * dataLast;
@@ -207,7 +215,8 @@ typename MyList2<T>::iterator MyList2<T>::erase(iterator elem) { //remove o elem
 		//so ha um elemento na lista
 		delete elem;
 		dataFirst = dataLast = NULL;		
-		return NULL;
+		return NULL;//void empty() const {return size() == 0;};
+	//int size() const {return dataSize;};
 	} else if(elem==dataFirst) {		
 		dataFirst = dataFirst->next;
 		dataFirst->prev = NULL;
@@ -252,6 +261,68 @@ const typename MyList2<T>::iterator MyList2<T>::next(const iterator curr) const 
 template<class T>
 const typename MyList2<T>::iterator MyList2<T>::prev(const iterator curr) const {
 	return curr->prev;
+}
+
+template<class T>
+void MyList2<T>::empty() const 
+{
+	return this->dataFirst == 0;
+}
+
+template<class T>
+int MyList2<T>::size() const
+{
+	int size = 0;
+	while(this->dataFirst->next)
+	{
+		size++;
+	}
+	return size;
+}
+
+template<class T>
+int MyList2<T>::eraseMatchingElements(const T&item)
+{
+	int removidos = 0;
+
+	Node<T>* it = this->begin();
+	while(it != NULL)
+	{
+		if(this->deref(it) == item)
+		{
+			removidos++;
+			it = this->erase(it);
+			continue;
+		}
+		it = this->next(it);
+	}
+	this->dataSize--;
+	return removidos;
+}
+
+template<class T>
+Node<T>*& MyList2<T>::reverse(Node<T>* &it)
+{
+	if(it == NULL) return it;
+	if(it->next == NULL)
+	{
+		return it->next;
+	}
+	(this->reverse(it->next)) = it;
+	return it->next;
+}
+
+template<class T>
+void MyList2<T>::reverse()
+{
+	(this->reverse(this->dataFirst)) = NULL;
+	swap(this->dataFirst, this->dataLast);
+}
+
+template<class T>
+bool MyList2<T>::compare(Node<T>*, Node<T>*)
+{
+
 }
 
 template<class T>
