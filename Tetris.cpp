@@ -244,14 +244,21 @@ int Tetris::removeLinhasCompletas()
 
         for (int i = 0; i < this->largura; i++)
         {
-            for (int k = 0; k < this->alturas[i] - 1; k++)
+            int tam, k;
+            tam = 0;
+            for (k = 0; k < this->alturas[i] - 1; k++)
             {
                 if (k >= j)
                 {
                     this->jogo[i][k] = this->jogo[i][k + 1];
                 }
             }
-            realocaVetor(this->jogo[i], this->alturas[i], this->alturas[i] - 1);
+            if (k > 0 && this->get(i, k - 1) == ' ')
+            {
+                tam = 1;
+            }
+
+            realocaVetor(this->jogo[i], this->alturas[i], this->alturas[i] - 1 - tam);
         }
         j--;
     }
@@ -339,7 +346,18 @@ bool Tetris::adicionaForma(int coluna, int linha, char id, int rotacao)
         {
             int nC = coluna + j, nL = linha - i;
 
-            int nT = linha + 1 + (p.get(0, j) == ' ' ? -1 : 0);
+            int nT = linha + 1;
+            for (int k = 0; k < p.getAltura(); k++)
+            {
+                if (p.get(k, j) == ' ')
+                {
+                    nT--;
+                }
+                else
+                {
+                    break;
+                }
+            }
 
             if (nT > this->getAltura(nC))
             {

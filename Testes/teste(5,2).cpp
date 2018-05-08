@@ -49,7 +49,7 @@ int main()
     cout<< jogo.adicionaForma(0, 0, 'I', 270) << endl;
     exibeJogo(jogo,jogo.getNumColunas(),jogo.getAltura());
 
-    jogo.removeLinhasCompletas();
+    cerr<< jogo.removeLinhasCompletas() << endl;
     jogo.removeColuna(16);
 
     exibeJogo(jogo,jogo.getNumColunas(),jogo.getAltura());
@@ -84,7 +84,7 @@ int main()
 
     exibeJogo(jogo,jogo.getNumColunas(),jogo.getAltura());
 
-    jogo.removeLinhasCompletas();
+    cerr<< jogo.removeLinhasCompletas() << endl;
 
     exibeJogo(jogo,jogo.getNumColunas(),jogo.getAltura());    
 
