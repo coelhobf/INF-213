@@ -2,3 +2,15 @@ Bruno Ferreira Coelho - 92559
 
 - Não foram ultilizadas fontes de consulta na execução do trabalho.
 - Todas as funções foram criadas por mim para esse trabalho.
+
+- Para a criação do visual do jogo, vulgo visual.cpp foram consultados:
+    - A playlist de videos no youtube: https://www.youtube.com/watch?v=lV-OPQhPvSM&list=PL2U2TQ__OrQ8jTf0_noNKtHMuYlyxQl4v
+    - A documentação da biblioteca: http://invisible-island.net/ncurses/man/ncurses.3x.html
+
+    - Para compilação faça:
+        g++ -c Tetris.cpp
+        g++ -c -lncurses visual.cpp
+        g++ visual.o Tetris.o -o Tetris.out
+    
+    -Para executar:
+        ./Tetris.out

@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cstdlib>
-#include <ncurses.h>
 #include <unistd.h>
 #include "Tetris.h"
 

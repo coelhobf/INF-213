@@ -15,44 +15,28 @@ void exibeJogo(WINDOW *win, const Tetris &jogo, int largura, int altura)
             switch (jogo.get(j, altura - i - 1))
             {
             case 'I':
-                wattron(win, COLOR_PAIR(1));
                 mvwprintw(win, i + 1, j + 1, "%c", jogo.get(j, altura - i - 1));
-                wattroff(win, COLOR_PAIR(1));
 
             case 'J':
-                wattron(win, COLOR_PAIR(2));
                 mvwprintw(win, i + 1, j + 1, "%c", jogo.get(j, altura - i - 1));
-                wattroff(win, COLOR_PAIR(2));
 
             case 'L':
-                wattron(win, COLOR_PAIR(3));
                 mvwprintw(win, i + 1, j + 1, "%c", jogo.get(j, altura - i - 1));
-                wattroff(win, COLOR_PAIR(3));
 
             case 'O':
-                wattron(win, COLOR_PAIR(4));
                 mvwprintw(win, i + 1, j + 1, "%c", jogo.get(j, altura - i - 1));
-                wattroff(win, COLOR_PAIR(4));
 
             case 'S':
-                wattron(win, COLOR_PAIR(5));
                 mvwprintw(win, i + 1, j + 1, "%c", jogo.get(j, altura - i - 1));
-                wattroff(win, COLOR_PAIR(5));
 
             case 'T':
-                wattron(win, COLOR_PAIR(6));
                 mvwprintw(win, i + 1, j + 1, "%c", jogo.get(j, altura - i - 1));
-                wattroff(win, COLOR_PAIR(6));
 
             case 'Z':
-                wattron(win, COLOR_PAIR(7));
                 mvwprintw(win, i + 1, j + 1, "%c", jogo.get(j, altura - i - 1));
-                wattroff(win, COLOR_PAIR(7));
 
             case ' ':
-                wattron(win, COLOR_PAIR(8));
                 mvwprintw(win, i + 1, j + 1, "%c", jogo.get(j, altura - i - 1));
-                wattroff(win, COLOR_PAIR(8));
             }
         }
     }
@@ -119,20 +103,6 @@ int main()
     int atual = 0, max = 0;
 
     initscr();
-    start_color();
-
-    // Cores das pecas
-    init_pair(1, 0, 6);
-    init_pair(2, 1, 7);
-    init_pair(3, 2, 0);
-    init_pair(4, 3, 1);
-    init_pair(5, 4, 2);
-    init_pair(6, 5, 3);
-    init_pair(7, 6, 4);
-    init_pair(8, 7, 5); //preto
-
-    init_pair(9, 7, 0);
-
     cbreak();
 
     WINDOW *wJogo = newwin(22, 12, 0, 0);
