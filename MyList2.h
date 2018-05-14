@@ -90,7 +90,7 @@ public:
 	int size() const;
 
 	int eraseMatchingElements(const T &item);
-	Node<T> *&reverse(Node<T> *&it);
+	void reverse(Node<T> *&it);
 	void reverse();
 	bool compare(Node<T> *, Node<T> *);
 
@@ -98,6 +98,8 @@ private:
 	Node<T> *dataFirst, *dataLast;
 	int dataSize; //quantos elementos ha na lista?
 
+	int size(Node<T>*) const;
+	bool compareRec(Node<T> *, Node<T> *) const;
 	void create();
 	void destroy();
 	void destroy(iterator it);
@@ -197,14 +199,17 @@ template <class T>
 void MyList2<T>::push_front(const T &elem)
 {//implemente esta funcao
 	Node<T>* nodo = new Node<T>(elem);
-	nodo->next = this->dataFirst;
-	if(!this->dataFirst)
+
+	if(this->dataFirst == 0)
+	{
+		this->dataFirst = this->dataLast = nodo;
+	}
+	else
 	{
 		this->dataFirst->prev = nodo;
-		this->dataLast = nodo;
+		nodo->next = this->dataFirst;
+		this->dataFirst = nodo;
 	}
-	this->dataSize++;
-	this->dataFirst = nodo;
 }
 
 //insere o elemento na posicao NA posicao nodeBefore
@@ -213,12 +218,31 @@ void MyList2<T>::push_front(const T &elem)
 template <class T>
 void MyList2<T>::insert(const T &elem, iterator where)
 {
+	if(where == 0)
+	{
+		this->push_back(elem);
+		return;
+	}
+
 	Node<T>* nodo = new Node<T>(elem);
 	nodo->next = where;
 	nodo->prev = where->prev;
-	if(!where->prev)
+
+	if(where->prev != 0)
 	{
-		where->prev->next =nodo;
+		where->prev->next = nodo;
+	}
+	else
+	{
+		this->dataFirst = nodo;
+	}
+	if(where->next != 0)
+	{
+		where->next->prev = nodo;
+	}
+	else
+	{
+		this->dataLast = nodo;
 	}
 }
 
@@ -307,16 +331,24 @@ void MyList2<T>::empty() const
 }
 
 template <class T>
-int MyList2<T>::size() const
+int MyList2<T>::size(Node<T>* data) const
 {
 	int size = 0;
-	Node<T> *curr = this->dataFirst;
-	while (curr)
+	if (data)
 	{
 		size++;
-		curr = curr->next;
 	}
-	return size;
+	else
+	{
+		return size;
+	}
+	return size + this->size(data->prev);
+}
+
+template <class T>
+int MyList2<T>::size() const
+{
+	return this->size(this->dataLast);
 }
 
 template <class T>
@@ -335,18 +367,16 @@ int MyList2<T>::eraseMatchingElements(const T &item)
 		}
 		it = this->next(it);
 	}
-	this->dataSize--;
+	this->dataSize -= removidos;
 	return removidos;
 }
 
 template <class T>
-Node<T> *&MyList2<T>::reverse(Node<T> *&it)
+void MyList2<T>::reverse(Node<T> *&it)
 {
-	if (it == NULL)
-		return it;
-	if (it->next == NULL)
+	if (it == 0)
 	{
-		return it->next;
+		return;
 	}
 	this->reverse(it->next);
 	//return it->next;
@@ -363,7 +393,7 @@ void MyList2<T>::reverse()
 template <class T>
 bool MyList2<T>::compare(Node<T> *a, Node<T> *b)
 {
-	return a->data == b->data;
+	return this->compareRec(a, b);
 }
 
 template <class T>
@@ -393,6 +423,20 @@ std::ostream &operator<<(std::ostream &out, const MyList2<T2> &v)
 	out << "\n";
 
 	return out;
+}
+
+template <class T>
+bool MyList2<T>::compareRec(Node<T> *a, Node<T> *b) const
+{
+	if(a == 0)
+	{
+		return false;
+	}
+	if(a->next == b)
+	{
+		return true;
+	}
+	return false || this->compareRec(a->next, b);
 }
 
 #endif
