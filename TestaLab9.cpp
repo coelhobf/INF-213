@@ -10,7 +10,12 @@ using namespace std;
 template<class T>
 void reverse(MyList2<T> list)
 {
-	
+	MyList2Iterator it = list.begin();
+	int tam = list.size();
+	for(auto it: item)
+	{
+		swap(++it, (--it));
+	}
 }
 
 //Etapa 1: Adicione sua implementacao de "reverse" antes da funcao "testaReverse"
