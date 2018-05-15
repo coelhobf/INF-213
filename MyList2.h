@@ -15,10 +15,10 @@ TAD MyList2
 //Excessao usada pela classe MyList2
 class MyList2Exception
 {
-private:
+  private:
 	std::string msg;
 
-public:
+  public:
 	MyList2Exception(const std::string &msg0) : msg(msg0) {}
 	const std::string &what() const { return msg; }
 };
@@ -29,7 +29,7 @@ class Node;
 template <class T>
 class Node
 { //a classe Node sera "escondida" quando trabalharmos com iteradores
- public:
+  public:
 	Node(const T &elem) : data(elem), next(NULL), prev(NULL) {}
 	T data;
 	Node<T> *next;
@@ -39,7 +39,7 @@ class Node
 template <class T>
 class MyList2
 {
-public:
+  public:
 	//decidimos utilizar o typedef com o objetivo de "abstrair" o conceito de iterador (a utilidade disso sera vista posteriormente)
 	typedef Node<T> *iterator; //define um iterador, um tipo utilizado para percorrer uma estrutura de dados e "apontar" para os items armazenados nela
 
@@ -94,11 +94,11 @@ public:
 	void reverse();
 	bool compare(Node<T> *, Node<T> *);
 
-private:
+  private:
 	Node<T> *dataFirst, *dataLast;
 	int dataSize; //quantos elementos ha na lista?
 
-	int size(Node<T>*) const;
+	int size(Node<T> *) const;
 	bool compareRec(Node<T> *, Node<T> *) const;
 	void create();
 	void destroy();
@@ -197,10 +197,10 @@ void MyList2<T>::push_back(const T &elem)
 
 template <class T>
 void MyList2<T>::push_front(const T &elem)
-{//implemente esta funcao
-	Node<T>* nodo = new Node<T>(elem);
+{ //implemente esta funcao
+	Node<T> *nodo = new Node<T>(elem);
 
-	if(this->dataFirst == 0)
+	if (this->dataFirst == 0)
 	{
 		this->dataFirst = this->dataLast = nodo;
 	}
@@ -218,32 +218,29 @@ void MyList2<T>::push_front(const T &elem)
 template <class T>
 void MyList2<T>::insert(const T &elem, iterator where)
 {
-	if(where == 0)
+	if (where == 0)
 	{
 		this->push_back(elem);
 		return;
 	}
 
-	Node<T>* nodo = new Node<T>(elem);
+	Node<T> *nodo = new Node<T>(elem);
 	nodo->next = where;
 	nodo->prev = where->prev;
 
-	if(where->prev != 0)
-	{
-		where->prev->next = nodo;
-	}
-	else
+	if (where->prev == 0)
 	{
 		this->dataFirst = nodo;
 	}
-	if(where->next != 0)
-	{
-		where->next->prev = nodo;
-	}
 	else
 	{
-		this->dataLast = nodo;
+		where->prev->next = nodo;
 	}
+	if (where->next == 0)
+	{
+		this->dataLast = where;
+	}
+	where->prev = nodo;
 }
 
 template <class T>
@@ -331,7 +328,7 @@ void MyList2<T>::empty() const
 }
 
 template <class T>
-int MyList2<T>::size(Node<T>* data) const
+int MyList2<T>::size(Node<T> *data) const
 {
 	int size = 0;
 	if (data)
@@ -422,17 +419,28 @@ std::ostream &operator<<(std::ostream &out, const MyList2<T2> &v)
 
 	out << "\n";
 
+	out << "Ordem reversa (testando ponteiros prev...)"
+		<< "\n";
+	curr = v.dataLast;
+	while (curr != NULL)
+	{ // equivalente a while(curr)
+		out << curr->data << " ";
+		curr = curr->prev;
+	}
+
+	out << "\n";
+
 	return out;
 }
 
 template <class T>
 bool MyList2<T>::compareRec(Node<T> *a, Node<T> *b) const
 {
-	if(a == 0)
+	if (a == 0)
 	{
 		return false;
 	}
-	if(a->next == b)
+	if (a->next == b)
 	{
 		return true;
 	}
