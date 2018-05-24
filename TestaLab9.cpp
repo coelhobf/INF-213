@@ -2,43 +2,45 @@
 
 using namespace std;
 
-
-
-
 #include "MyList2NewIterator.h"
 
-template<class T>
-void reverse(MyList2<T> list)
+template <class T>
+void reverse(MyList2<T> &list)
 {
-	MyList2Iterator it = list.begin();
-	int tam = list.size();
-	for(auto it: item)
+	typename MyList2<T>::iterator first = list.begin();
+	typename MyList2<T>::iterator last = list.end(); last--;
+	int tam = list.size(); tam /= 2;
+
+	for(; tam; tam--, first++, last--)
 	{
-		swap(++it, (--it));
+		swap(*first, *last);
 	}
 }
 
 //Etapa 1: Adicione sua implementacao de "reverse" antes da funcao "testaReverse"
 
-
-
-void testaReverse() {
+void testaReverse()
+{
 	cout << "Testando a funcao reverse..." << endl;
 	MyList2<int> l1;
 
-	for(int i=0;i<6;i++) {
+	for (int i = 0; i < 6; i++)
+	{
 		MyList2<int> l2 = l1;
 		reverse(l2);
-		cout << "Lista: " << endl << l1 << " Reverse: " << endl << l2 << endl << "--------------" << endl;
+		cout << "Lista: " << endl
+			 << l1 << " Reverse: " << endl
+			 << l2 << endl
+			 << "--------------" << endl;
 		l1.push_back(i);
 	}
 }
 
-//Etapa 2: descomente o codigo abaixo para testar a sua implementacao da operacao de decremento do 
+//Etapa 2: descomente o codigo abaixo para testar a sua implementacao da operacao de decremento do
 //iterador end...
 
 //imprime de forma reversa utilizando o iterador end...
-/*
+
 void printReverse(MyList2<int> &l1) { 
 	//nao passamos por referencia constante porque nao nos preocupamos com iteradores constantes
 	//na implementacao da classe MyList2 (sem esses iteradores nao podemos iterar em listas constantes,
@@ -72,10 +74,10 @@ void testaDecrementoEnd() {
 	cout << "Isso deve imprimir o numero 5...: " << *it << endl;
 
 }
-*/
+
 
 //Etapa 3: descomente o codigo abaixo para testar sua implementacao da classe Range...
-/*#include "Range.h"
+#include "Range.h"
 void testaRange() {
 	cout << "Testando a classe Range..." << endl;
 	Range range(1,5);
@@ -87,18 +89,18 @@ void testaRange() {
 
 	cout << endl;
 	for(int i:Range(1,5)) cout << i << endl;
-}*/
+}
 
-
-int main() {
+int main()
+{
 	//Etapa 1: implemente a funcao reverse()
 	testaReverse();
 
 	//Etapa 2: descomente o codigo abaixo (mantenha o codigo da etapa 1 descomentado...)
-	//testaDecrementoEnd();
+	testaDecrementoEnd();
 
 	//Etapa 3: descomente o codigo abaixo (mantenha o codigo das etapas 1 e 2 descomentado...)
-	//testaRange();
+	testaRange();
 }
 
 /* Saida esperada apos a implementacao das 3 etapas:
