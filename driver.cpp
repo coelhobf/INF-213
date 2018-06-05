@@ -1,11 +1,17 @@
+#include <iostream>
 #include <bits/stdc++.h>
-#include "Mediana.h"
-
 using namespace std;
+
+
+// Insira aqui o codigo para a etapa 1....
+
+//Voce pode adicionar includes como o abaixo...
+//#include "MyStack.h"
+
 
 void etapa1()
 {
-    stack<int> s;
+	stack<int> s;
     queue<int> q;
 
     for (int i = 0; i < 5; i++)
@@ -31,9 +37,13 @@ void etapa1()
     cout << endl;
 }
 
+//---------------------------------------
+
+// Insira aqui o codigo para a etapa 2....
+
 void etapa2()
 {
-    string str;
+	string str;
     cin >> str;
 
     stack<char> s;
@@ -83,27 +93,51 @@ void etapa2()
     {
         cout << "Inconsistente" << endl;
         return;
-    }
+    }	
 }
 
-void etapa3()
-{
-    Mediana med;
-    int a;
-    while(cin>> a)
-    {
-        med.insere(a);
-        cout<< med << endl;
-        cout<< med.getMediana() << " ";
-    }
-    cout<< endl;
+//---------------------------------------
 
+// Insira aqui o codigo para a etapa 3....
+
+
+//#include "MedianaLenta.h" //use essa implementacao para fazer os primeiros testes (com o calculo lento da mediana...)
+#include "Mediana.h" //descomente esta linha para utilizar sua classe mais eficiente!
+void etapa3() {
+	//descomente o codigo abaixo ao fazer a etapa 3
+	Mediana mediana;
+
+	int n,elem;	
+	cin >> n;
+	for(int i=0;i<n;i++) {
+		cin >> elem;
+		mediana.insere(elem);
+		cout << mediana.getMediana() << " ";
+        //cout<< endl << mediana << endl;
+	}
+	cout << endl;
 }
 
-int main()
-{
-    //etapa1();
-    //etapa2();
-    etapa3();
-    return 0;
+//---------------------------------------
+
+
+
+
+int main() {
+	int etapa;
+	cin >> etapa;
+	switch(etapa) {
+		case 1:
+			cout << "Etapa 1" << endl;
+			etapa1();
+			break;
+		case 2:
+			cout << "Etapa 2" << endl;
+			etapa2();
+			break;
+		case 3:
+			cout << "Etapa 3" << endl;
+			etapa3();
+			break;
+	}
 }

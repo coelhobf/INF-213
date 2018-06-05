@@ -3,7 +3,12 @@
 
 using namespace std;
 
-void Mediana::heap(int pos)
+Mediana::Mediana()
+{
+    this->part = 0;
+}
+
+void Mediana::heapIni(int pos)
 {
     if (pos == 0)
     {
@@ -24,14 +29,50 @@ void Mediana::heap(int pos)
     if (data[pos] > data[i])
     {
         swap(data[pos], data[i]);
-        heap(i);
     }
+    heapIni(i);
+}
+
+void Mediana::heapFim(int pos)
+{
+    if (pos == this->part)
+    {
+        return;
+    }
+
+    int i, j = pos - part;
+
+    if (j % 2 == 0) //filho 2
+    {
+        i = (j - 2) / 2;
+    }
+    else //filho 1
+    {
+        i = (j - 1) / 2;
+    }
+
+    if (data[pos] < data[i + part])
+    {
+        swap(data[pos], data[i + part]);
+    }
+    heapFim(i + part);
 }
 
 void Mediana::insere(int x)
 {
+    cout<< endl;
     data.push_back(x);
-    heap(data.size() - 1);
+    heapFim(data.size() - 1);
+    cout<< endl<<  "Fim: " <<  *this <<endl;
+
+    while (this->part < data.size() / 2)
+    {
+        heapIni(this->part);
+        this->part++;
+        cout<< "Ini: " << *this << endl;
+        heapFim(data.size() - 1);
+        cout<< "Fim: " << *this << endl;
+    }
 }
 
 int Mediana::getMediana()
@@ -40,7 +81,7 @@ int Mediana::getMediana()
 
     if (i % 2 == 0) //par
     {
-        return (data[i / 2 - 1] + data[i / 2]) / 2;
+        return (data[0] + data[i / 2]) / 2;
     }
     else
     {
@@ -52,9 +93,12 @@ ostream &operator<<(ostream &os, const Mediana &med)
 {
     for (int i = 0; i < med.data.size(); i++)
     {
-        cout<< med.data[i] << " ";
+        if(i == med.part)
+        {
+            cout<< "| ";
+        }
+        cout << med.data[i] << " ";
     }
-    cout<< endl;
 
     return os;
 }

@@ -8,7 +8,7 @@ using namespace std;
 class Mediana
 {
 public:
-    Mediana(){}
+    Mediana();
 
     void insere(int);
     int getMediana();
@@ -17,7 +17,9 @@ public:
 
 private:
     vector<int> data;
-    void heap(int);
+    void heapIni(int);
+    void heapFim(int);
+    int part;
 };
 
 #endif

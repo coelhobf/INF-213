@@ -20,11 +20,10 @@ public:
 	//para estudar o estado da fila...
 	void print()  const ;
 private:
-	bool full() const { return size() == vec.size(); } //}first == (last+1)%vec.size(); }
+	bool full() const { return first == (last+1)%vec.size(); }
 	int first, last;
 	MyVec<T> vec;
 };
-
 
 
 
@@ -66,7 +65,6 @@ void MyQueue<T>::pop() {
 
 template<class T>
 int MyQueue<T>::size() const {
-	if(empty()) return 0;
 	if(last>=first) return last-first+1;
 	else return vec.size() - (first-last+1);
 }
