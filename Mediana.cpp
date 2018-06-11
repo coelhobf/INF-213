@@ -16,6 +16,17 @@ void Mediana::insere(int el)
         d1.push(-1 * d2.top());
         d2.pop();
     }
+
+    if(size() > 1)
+    {
+        if(d1.top() > (-1 * d2.top()))
+        {
+            d2.push(-1 * d1.top());
+            d1.pop();
+            d1.push(-1 * d2.top());
+            d2.pop();
+        }
+    }
 }
 
 int Mediana::getMediana()
@@ -32,7 +43,7 @@ int Mediana::getMediana()
         med = -1 * d2.top();
     }
 
-    return -1 * med;
+    return med;
 }
 
 ostream &operator<<(ostream &os, const Mediana &med)

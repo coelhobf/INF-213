@@ -112,16 +112,10 @@ void etapa3()
     {
         cin >> elem;
         mediana.insere(elem);
-        v.push_back(elem);
-        sort(v.begin(), v.end());
-        for(auto &x: v)
-        {
-          cout<< x << " ";
-        }
-        cout<< "\n";
-        cout << mediana.getMediana() << " ";
+        
+        cout<< mediana.getMediana() << " ";
     }
-    cout << endl;
+    cout << "\n";
 }
 
 //---------------------------------------
