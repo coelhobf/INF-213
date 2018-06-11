@@ -4,18 +4,17 @@ using namespace std;
 
 Mediana::Mediana()
 {
-    hasLeft = 0;
+  
 }
 
 void Mediana::insere(int el)
 {
     el *= -1;
-    data.push(el);
-    if ((hasLeft + data.size()) % 2 == 0)
+    d2.push(el);
+    if (size() % 2 == 0)
     {
-        left = data.top();
-        hasLeft++;
-        data.pop();
+        d1.push(-1 * d2.top());
+        d2.pop();
     }
 }
 
@@ -25,12 +24,12 @@ int Mediana::getMediana()
 
     if (size() % 2 == 0)
     {
-        med = left + data.top();
+        med = d1.top() + (-1 * d2.top());
         med /= 2;
     }
     else
     {
-        med = data.top();
+        med = -1 * d2.top();
     }
 
     return -1 * med;
@@ -38,11 +37,12 @@ int Mediana::getMediana()
 
 ostream &operator<<(ostream &os, const Mediana &med)
 {
-    med.data.print();
+    med.d1.print();
+    med.d2.print();
     return os;
 }
 
 int Mediana::size()
 {
-    return hasLeft + data.size();
+    return d1.size() + d2.size();
 }

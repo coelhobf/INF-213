@@ -13,14 +13,12 @@ class Mediana
 
     void insere(int);
     int getMediana();
-
-    friend ostream &operator<<(ostream &, const Mediana &);
     int size();
 
+    friend ostream &operator<<(ostream &, const Mediana &);
+
   private:
-    MyPriorityQueue<int> data;
-    int left;
-    int hasLeft;
+    MyPriorityQueue<int> d1, d2;
 };
 
 #endif

@@ -1,4 +1,3 @@
-#include <iostream>
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -12,7 +11,7 @@ void etapa1()
     stack<int> s;
     queue<int> q;
 
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 6; i++)
     {
         int a;
         cin >> a;
@@ -20,14 +19,14 @@ void etapa1()
         q.push(a);
     }
 
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 6; i++)
     {
         cout << s.top() << " ";
         s.pop();
     }
     cout << endl;
 
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 6; i++)
     {
         cout << q.front() << " ";
         q.pop();
@@ -42,7 +41,8 @@ void etapa1()
 void etapa2()
 {
     string str;
-    cin >> str;
+    cin.ignore();
+    getline(cin, str);
 
     stack<char> s;
 
@@ -112,6 +112,13 @@ void etapa3()
     {
         cin >> elem;
         mediana.insere(elem);
+        v.push_back(elem);
+        sort(v.begin(), v.end());
+        for(auto &x: v)
+        {
+          cout<< x << " ";
+        }
+        cout<< "\n";
         cout << mediana.getMediana() << " ";
     }
     cout << endl;
