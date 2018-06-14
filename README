@@ -1,0 +1,28 @@
+Bruno Ferreira Coelho - 92559
+
+Para a arvore:
+    -inserção -> log(n)
+    -count -> 1
+    -sum -> log(n)
+
+    Para n inserções serão feitas 2nlog(n) operações;
+
+    O(nlog(n))
+
+Para o ordenar:
+    -inserção -> 1
+    -ordenação -> (n² - n)/2
+
+    Para n inserções feitas serão (n² - n)/2 operações;
+
+    O(n²)
+
+Analise de tempo:
+
+    arvore ordenar
+10¹ 0,002s 0,006s
+10² 0,007s 0,009s
+10³ 0,011s 0,012s
+10⁴ 0,022s 0,057s
+10⁵ 0,092s 2,320s
+10⁶ 1,624s -s
