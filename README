@@ -26,3 +26,6 @@ Analise de tempo:
 10⁴ 0,022s 0,057s
 10⁵ 0,092s 2,320s
 10⁶ 1,624s -s
+
+Pelo experimento pude concluir que para entradas grandes algoritimos O(n²) tornam-se ineficientes. 
+E que arvores podem ser muito úteis em resolver problemas por simulação.

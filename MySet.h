@@ -42,7 +42,7 @@ class MySet
 	~MySet();
 
 	void print();
-	int getMov(){return movimentos;}
+	long long int getMov(){return movimentos;}
 
   private:
 	Node<T> *root;
@@ -56,10 +56,10 @@ class MySet
 	Node<T> *copyNodes(const Node<T> *root) const;
 
 	void print(Node<T> *root);
-	int sum(Node<T> *root, const T &elem);
+	long long int sum(Node<T> *root, const T &elem);
 	int count(Node<T> *root);
 
-	int movimentos;
+	long long int movimentos;
 };
 
 //por enquanto vamos desconsiderar os operadores ++ e -- em conjuntos...
@@ -233,14 +233,14 @@ int MySet<T>::count(Node<T> *root)
 }
 
 template <class T>
-int MySet<T>::sum(Node<T> *root,const T &elem)
+long long int MySet<T>::sum(Node<T> *root,const T &elem)
 {
 	if(!root)
 	{
 		return 0;
 	}
 
-	int soma = 0;
+	long long int soma = 0;
 
 	if(root->elem > elem)
 	{

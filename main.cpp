@@ -3,9 +3,9 @@
 using namespace std;
 
 template <class T>
-int inserctionSort(vector<T> &v)
+long long int inserctionSort(vector<T> &v)
 {
-    int count = 0;
+    long long int count = 0;
     for (int i = 1; i < v.size(); i++)
     {
         int x = v[i];
@@ -24,9 +24,8 @@ int inserctionSort(vector<T> &v)
 }
 
 template <class T>
-int tree(vector<T> &v)
+long long int tree(vector<T> &v)
 {
-    int count = 0;
     MySet<int> tree;
     for (auto &x : v)
     {
