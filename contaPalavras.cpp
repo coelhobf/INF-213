@@ -1,36 +1,36 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int main(int a, char* b[])
+int main(int a, char *b[])
 {
     string modo = b[1];
 
-    if(modo == "myvec")
+    if (modo == "myvec")
     {
         int quant = 0;
         string str;
         vector<string> v;
 
-        while(cin>> str)
+        while (cin >> str)
         {
             bool insere = true;
             quant++;
-            for(auto &x: v)
+            for (int i = 0; i < v.size(); i++)
             {
-                if(x == str)
+                if (v[i] == str)
                 {
                     insere = false;
                     break;
                 }
             }
 
-            if(insere)
+            if (insere)
             {
                 v.push_back(str);
             }
         }
 
-        cout<< quant << " " << v.size() << endl;
+        cout << quant << " " << v.size() << endl;
     }
     else
     {
@@ -38,7 +38,7 @@ int main(int a, char* b[])
         string str;
         set<string> v;
 
-        while(cin>> str)
+        while (cin >> str)
         {
             bool insere = true;
             quant++;
@@ -46,6 +46,6 @@ int main(int a, char* b[])
             v.insert(str);
         }
 
-        cout<< quant << " " << v.size() << endl;
+        cout << quant << " " << v.size() << endl;
     }
 }
