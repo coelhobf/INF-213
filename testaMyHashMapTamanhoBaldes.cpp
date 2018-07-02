@@ -40,7 +40,25 @@ class MyStringHash3 {
 public:
 	unsigned operator()(const string &s) const
 	{
-		
+		unsigned n = 0;
+		for(int i = 0; i<s.length(); i++)
+		{
+			n += s[i] * (i+1); 
+		}
+		return n;
+	}
+};
+
+class MyStringHash4 {
+public:
+	unsigned operator()(const string &s) const
+	{
+		unsigned n = 1;
+		for(int i = 0; i<=s.length()/2; i++)
+		{
+			n *= s[i] + s[s.length() - 1 -i];
+		}
+		return n;
 	}
 };
 
@@ -84,12 +102,12 @@ int main(int argc, char **argv) {
 			testaHash<MyStringHash2>(chaves); //realiza o teste usando o functor MyStringHash2
 			break;
 		case 3:
-			//cout << "Testando com o functor 3 (.....)" << endl;
-			//testaHash<MyStringHash3>(chaves); //realiza o teste usando o functor MyStringHash3
+			cout << "Testando com o functor 3 (.....)" << endl;
+			testaHash<MyStringHash3>(chaves); //realiza o teste usando o functor MyStringHash3
 			break;
 		case 4:
-			//cout << "Testando com o functor 4 (.....)" << endl;
-			//testaHash<MyStringHash4>(chaves); //realiza o teste usando o functor MyStringHash4
+			cout << "Testando com o functor 4 (.....)" << endl;
+			testaHash<MyStringHash4>(chaves); //realiza o teste usando o functor MyStringHash4
 			break;
 	}
 

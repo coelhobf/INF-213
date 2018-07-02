@@ -25,8 +25,10 @@ class MyHashMap
 	void imprime();						   //usada para visualizar o conteudo da tabela...
 	void imprimeTamanhoBaldes() const;	 //imprime o numero de elementos em cada balde do hashmap
 
+	void reHash(int newSize);
+
   private:
-	MyVec<MyList2<std::pair<KEY, VALUE>>> table;
+	MyVec<MyList2<std::pair<KEY, VALUE> > > table;
 	int numElems;
 	HASH funcaoHash; //functor representando a funcao hash que vamos usar na classe...
 
@@ -52,7 +54,7 @@ void MyHashMap<KEY, VALUE, HASH>::imprime()
 	for (int i = 0; i < tableSize; i++)
 	{
 		std::cout << "Bucket " << i << " : ";
-		for (typename MyList2<std::pair<KEY, VALUE>>::iterator it = table[i].begin(); it != table[i].end(); it++)
+		for (typename MyList2<std::pair<KEY, VALUE> >::iterator it = table[i].begin(); it != table[i].end(); it++)
 		{
 			std::cout << "(" << (*it).first << "," << (*it).second << ");";
 		}
@@ -86,7 +88,7 @@ template <class KEY, class VALUE, class HASH>
 int MyHashMap<KEY, VALUE, HASH>::count(const KEY &k)
 {
 	int hash = funcaoHash(k) % tableSize; //chame a funcao hash (na verdade functor) para calcular o hash da chave
-	for (typename MyList2<std::pair<KEY, VALUE>>::iterator it = table[hash].begin(); it != table[hash].end(); it++)
+	for (typename MyList2<std::pair<KEY, VALUE> >::iterator it = table[hash].begin(); it != table[hash].end(); it++)
 	{ //procure pela chave no balde adequado da tabela...
 		if ((*it).first == k)
 		{ //encontramos a chave?
@@ -101,7 +103,7 @@ template <class KEY, class VALUE, class HASH>
 VALUE & MyHashMap<KEY, VALUE, HASH>::getValue(const KEY &k)
 {
 	int hash = funcaoHash(k) % tableSize; //chame a funcao hash (na verdade functor) para calcular o hash da chave
-	for (typename MyList2<std::pair<KEY, VALUE>>::iterator it = table[hash].begin(); it != table[hash].end(); it++)
+	for (typename MyList2<std::pair<KEY, VALUE> >::iterator it = table[hash].begin(); it != table[hash].end(); it++)
 	{ //procure pela chave no balde adequado da tabela...
 		if ((*it).first == k)
 		{						 //encontramos a chave?
@@ -113,6 +115,23 @@ VALUE & MyHashMap<KEY, VALUE, HASH>::getValue(const KEY &k)
 	//o usuario da classe deveria testar antes se a chave se encontra na tabela
 	//uma solucao melhor consiste em retornar um iterador (nesse caso, se a chave nao se encontrar retornariamos um iterador para end())
 	//mas isso foge do escopo desta aula... (onde estamos focando em uma implementacao simples)
+}
+
+template <class KEY, class VALUE, class HASH>
+void MyHashMap<KEY, VALUE, HASH>::reHash(int newSize)
+{
+	MyVec<MyList2<std::pair<KEY, VALUE> > > newTable(newSize);
+
+	for(int i=0; i<table.size(); i++)
+	{
+		for(typename MyList2<std::pair<KEY, VALUE> >::iterator it = table[i].begin(); it != table[i].end(); it++)
+		{
+			int hash = funcaoHash((*it).first) % newSize;
+			newTable[hash].push_back(make_pair((*it).first, (*it).second));
+		}
+	}
+	table = newTable;
+	tableSize = newSize;
 }
 
 #endif

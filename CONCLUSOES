@@ -1,0 +1,9 @@
+Tempos:
+
+1 = 3,353s
+2 = 4,029s
+3 = 3,186s
+4 = 5,451s
+
+Pode-se observar que mesmo com funções de hash mais trabalhosas o resultado final é melhor doq ue algo muito simples.
+
