@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/a.out",
-            "args": ["teste", "<pixels.ppm", ">comp.txt"],
+            "args": ["comprimir", "<teste.ppm", ">compress1.txt"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

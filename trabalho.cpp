@@ -12,9 +12,25 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-    PPMImage img;
-    cin >> img;
+    if (string(argv[1]) == "comprimir")
+    {
+        PPMImage img;
+        cin >> img;
+        QuadTree tree(img);
+        tree.print();
+    }
+    else if (string(argv[1]) == "descomprimir")
+    {
+        int tam, maxIntensity;
+        cin>> tam >> maxIntensity;
+        string img;
+        cin>> img;
 
-    QuadTree tree(img);
-    tree.print();
+        PPMImage img2(tam, tam, maxIntensity);
+
+        QuadTree tree(img2, true);
+        tree.preenchePPMImage(img, tam);
+        
+        cout<< img2;
+    }
 }

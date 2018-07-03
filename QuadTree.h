@@ -8,35 +8,41 @@ using namespace std;
 class Nodo
 {
   public:
-	Nodo *parent;
-	Nodo *quads[4];
+    Nodo *parent;
+    Nodo *quads[4];
 
-	Color predominantColor;
-	bool isUniform;
+    Color predominantColor;
+    bool isUniform;
 
-	int x_min;
-	int y_min;
-	int size;
+    int x_min;
+    int y_min;
+    int size;
 
-	Nodo();
-	Nodo(Nodo *parent, int y_min, int x_min, int size);
+    Nodo();
+    Nodo(Nodo *parent, int y_min, int x_min, int size);
 };
 
 class QuadTree
 {
   private:
-	Nodo *root;
+    Nodo *root;
 
-	PPMImage *img;
+    PPMImage *img;
 
-	int imgSize;
+    int imgSize;
 
-	void PreencheArvore(Nodo *&root, Nodo *parent, int y_min, int x_min, int size);
-	void print(Nodo *root);
+    void PreencheArvore(Nodo *&root, Nodo *parent, int y_min, int x_min, int size);
+    int stringToTree(Nodo *root, const string &str, int indice);
+    void treeToPPMImage(Nodo *root);
+    void print(Nodo *root);
+    void destroy(Nodo *root);
 
   public:
-	QuadTree(const PPMImage &img);
-	void print();
+    QuadTree(const PPMImage &img, bool descomprimir = false);
+    ~QuadTree();
+
+    void preenchePPMImage(const string &str, int imgSize);
+    void print();
 };
 
 #endif
