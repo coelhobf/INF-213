@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/a.out",
-            "args": ["comprimir", "<teste.ppm", ">compress1.txt"],
+            "args": ["descomprimir", "<capcom.txt", ">capi2.ppm"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

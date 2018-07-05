@@ -8,41 +8,51 @@ using namespace std;
 class Nodo
 {
   public:
-    Nodo *parent;
-    Nodo *quads[4];
+	Nodo *parent;
+	Nodo *quads[4];
 
-    Color predominantColor;
-    bool isUniform;
+	Color predominantColor;
+	bool isUniform;
 
-    int x_min;
-    int y_min;
-    int size;
+	int x_min;
+	int y_min;
+	int size;
 
-    Nodo();
-    Nodo(Nodo *parent, int y_min, int x_min, int size);
+	Nodo();
+	Nodo(Nodo *parent, int y_min, int x_min, int size);
 };
 
 class QuadTree
 {
-  private:
-    Nodo *root;
+private: //atributos
+	Nodo *root;
+	PPMImage *img;
+	string *str;
+	int imgSize;
 
-    PPMImage *img;
+private: //metodos
+	void PPMToTree(Nodo *&root, Nodo *parent, int y_min, int x_min, int size, int typeCompress);
+	int  stringToTree(Nodo *root, int indice);
 
-    int imgSize;
+	void treeToPPMImage(Nodo *root);
+	void treeToString(Nodo * root);
 
-    void PreencheArvore(Nodo *&root, Nodo *parent, int y_min, int x_min, int size);
-    int stringToTree(Nodo *root, const string &str, int indice);
-    void treeToPPMImage(Nodo *root);
-    void print(Nodo *root);
-    void destroy(Nodo *root);
+	void copiaNodos(Nodo *parent, Nodo *root, Nodo *other);
+	void destroy(Nodo *root);
 
-  public:
-    QuadTree(const PPMImage &img, bool descomprimir = false);
-    ~QuadTree();
+	bool extraUniform(int y_min, int x_min, int size, Color &predominantColor);
 
-    void preenchePPMImage(const string &str, int imgSize);
-    void print();
+public: //metodos
+	QuadTree(const QuadTree &other);
+	QuadTree(const PPMImage &img, int typeCompress);
+	QuadTree(int tam, int maxIntensity, const string &str);
+	~QuadTree();
+
+	string toString();
+	PPMImage toPPMImage();
+	
+	void printCompress();
+	void printUncompress();
 };
 
 #endif

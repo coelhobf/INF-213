@@ -16,8 +16,8 @@ int main(int argc, char **argv)
     {
         PPMImage img;
         cin >> img;
-        QuadTree tree(img);
-        tree.print();
+        QuadTree tree(img, 1);
+        tree.printCompress();
     }
     else if (string(argv[1]) == "descomprimir")
     {
@@ -26,11 +26,14 @@ int main(int argc, char **argv)
         string img;
         cin>> img;
 
-        PPMImage img2(tam, tam, maxIntensity);
-
-        QuadTree tree(img2, true);
-        tree.preenchePPMImage(img, tam);
-        
-        cout<< img2;
+        QuadTree tree(tam, maxIntensity, img);
+        tree.printUncompress();
+    }
+    else if (string(argv[1]) == "extra")
+    {
+        PPMImage img;
+        cin >> img;
+        QuadTree tree(img, 2);
+        tree.printCompress();
     }
 }
